@@ -1,0 +1,31 @@
+
+	 <!---card-->
+   <div class="card">
+    <!--card-img-->
+    <div class="card-img">
+      <a [routerLink]="['/', product?.brandSlug, product?.categorySlug, product?.productSlug]">
+        <!-- <img [defaultImage]="'/assets/images/placeholder/test.png'" [lazyLoad]="product?.images[0]"> -->
+        <!-- <img src={{product.images[0]}} /> -->
+      </a>
+    </div>
+    <!--card-body-area-->
+    <div class="card-body">
+     <!---card-title-->
+     <div class="card-title">
+      <a [routerLink]="['/', product?.productSlug]">{{product?.productName}}</a>
+       <!-- <span>{{product?.generic?.name}}</span> -->
+     </div>
+     <!--card-bottom-->
+     <div class="card-bottom">
+       <!--card-price-->
+       <div class="card-price">
+         <h4 *ngIf="product && product.price > 0">MRP <del>৳ {{product?.price}}</del> <span> {{product ? (product.discountType) : 0}}% OFF</span></h4>
+         <!-- <h3>৳{{product.prices[0]}}</h3> -->
+       </div>
+       <!--add-btn-->
+       <div class="add-btn">
+         <a [routerLink]="['/', product?.brandSlug, product?.categorySlug, product?.productSlug]">Details</a>
+       </div>
+     </div>
+    </div>
+  </div>

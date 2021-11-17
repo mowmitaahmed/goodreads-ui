@@ -1,0 +1,97 @@
+<section class="singup-area">
+  <div class="container">
+    <div class="singup-title clearfix">
+      <div class="singup-title-left">
+       <h2>Create Your Goodreads Account</h2>
+      </div>
+      <div class="singup-title-right">
+        <h3>Already member? <a routerLink="/login"> sign in here.</a></h3>
+      </div>
+    </div>
+
+    <div class="singup-form">
+      <form [formGroup]="dataForm" (ngSubmit)="onSubmitForm()" autocomplete="off">
+
+        <div class="form-details-left">
+
+         <div class="login-field">
+           <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Phone Number</mat-label>
+              <input digitOnly type="tel" formControlName="phoneNo" matInput placeholder="01XXXXXXXXX" id="num" [maxLength]="11">
+              <mat-icon matSuffix>call</mat-icon>
+              <mat-error>Please enter your valid phone no</mat-error>
+            </mat-form-field>
+
+           <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Email Address</mat-label>
+              <input type="email" formControlName="email" matInput placeholder="Enter valid email address" required>
+              <mat-icon matSuffix>mail</mat-icon>
+              <mat-error>Please enter your valid email</mat-error>
+            </mat-form-field>
+
+          </div>
+
+          <div class="pass-details">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Password</mat-label>
+              <input autocomplete="new-password" [type]="isHiddenPass ? 'password' : 'text'" formControlName="password" matInput
+                     placeholder="Minimum 6 characters with a number and latter">
+              <mat-icon matSuffix style="cursor: pointer" (click)="isHiddenPass = !isHiddenPass">
+                {{isHiddenPass ? 'visibility' : 'visibility_off'}}
+              </mat-icon>
+              <mat-error>Please enter your valid password</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Confirm Password</mat-label>
+              <input autocomplete="new-password" [type]="isHiddenConPass ? 'password' : 'text'" formControlName="confirmPassword" matInput placeholder="Enter confirm password">
+              <mat-icon matSuffix style="cursor: pointer" (click)="isHiddenConPass = !isHiddenConPass">
+                {{isHiddenConPass ? 'visibility' : 'visibility_off'}}
+              </mat-icon>
+              <mat-error>Please enter your valid password</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Gender</mat-label>
+              <mat-select formControlName="gender">
+                <mat-option *ngFor="let data of genders"
+                            [value]="data.value">{{data.viewValue}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          </div>
+       </div>
+
+       <div class="form-details-right">
+          <div class="full-name">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Full Name</mat-label>
+              <input type="text" formControlName="fullName" matInput placeholder="Enter your full name">
+              <mat-icon matSuffix>person</mat-icon>
+              <mat-error>This field is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="check-box">
+            <div class="check">
+              <mat-checkbox formControlName="agree" id="check"></mat-checkbox>
+            </div>
+            <div class="check-rules">
+              <label for="check">I want to receive exclusive offers and promotions
+                from E-medilife</label>
+            </div>
+          </div>
+          <div class="submit-btn">
+            <button [disabled]="isLoading" type="submit">{{isLoading ? 'PLEASE WAIT..' : 'SIGN UP'}}</button>
+          </div>
+          <div class="privacy">
+            <p>By clicking "SIGN UP", I agree to E-medilife's <a routerLink="/pages/terms-and-conditions" target="_blank">terms
+              of use</a>
+              and <a routerLink="/pages/privacy-policy" target="_blank">Privacy Policy</a>
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

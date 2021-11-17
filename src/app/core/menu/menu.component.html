@@ -1,0 +1,65 @@
+
+<mat-sidenav-container>
+
+    <!--[mode]="(isHandset$ | async) ? 'over' : 'side'"-->
+    <mat-sidenav #sidenav [mode]="'over'" [opened]="false" class="sidenav mat-elevation-z6">
+  
+      <!---login-top-view-area-->
+      <div class="login-top-view-area" *ngIf="isUserAuth">
+        <!--user-img-->
+        <div class="user-img">
+          <img [src]="user?.profileImg ? user?.profileImg : '/assets/images/avatar/user_low.png'" alt="">
+        </div>
+        <!---user-name-->
+        <div class="user-name">
+          <h3>{{user?.fullName ? user?.fullName : 'N/A'}}</h3>
+          <a>{{user?.phoneNo ? user?.phoneNo : 'N/A'}}</a>
+        </div>
+      </div>
+      <!---not-login-top-view-->
+      <div class="not-login-top-view" *ngIf="!isUserAuth">
+        <img src="/assets/brand/emedilife_2x.png" alt="">
+      </div>
+  
+  
+  
+  
+  
+      <app-sidenav-list></app-sidenav-list> <!-- END SIDENAV LIST -->
+  
+      <!---sidenav-footer-area-->
+      <div class="footer">
+  
+        <div class="footer-main">
+          <!---footer-info-->
+          <div class="footer-info">
+            <span><i class="far fa-comment-alt"></i></span>
+            <h3>Live Chat</h3>
+          </div>
+          <!---footer-info-->
+          <div class="footer-info">
+            <span><i class="fa fa-phone-alt"></i></span>
+            <h3>Phone</h3>
+          </div>
+        </div>
+  
+      </div>
+  
+    </mat-sidenav> <!-- END SIDENAV -->
+  
+    <mat-sidenav-content>
+      <app-header (sidenavNavToggle)="sidenav.open()">
+      </app-header><!-- END HEADER MAIN -->
+
+  
+      <main class="main-content">
+        <ng-content></ng-content>
+      </main>
+  
+  
+      <app-footer></app-footer>
+  
+    </mat-sidenav-content> <!-- END MAIN CONTENT -->
+  
+  </mat-sidenav-container>
+  

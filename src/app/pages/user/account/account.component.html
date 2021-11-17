@@ -1,0 +1,46 @@
+<div class="container-fluid" >
+    <div class="side-bar" id="main-sidebar-container-area">
+      <div class="profile-view">
+        <div class="img-thumb">
+          <img [src]="imgPlaceHolder" [alt]="'Picked Image'">
+          <div class="edit-profile-img">
+            <button mat-icon-button (click)="profileImagePicker.click()">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+          <input [hidden]="true" #profileImagePicker type="file" accept="image/*"/>
+        </div>
+        <div class="desc">
+          <h2>{{user?.fullName}}</h2>
+          <p>{{user?.phoneNo ? user.phoneNo : 'N/A'}}</p>
+        </div>
+      </div> <!--  END PROFILE VIEW -->
+  
+      <div class="nav-link">
+        <ul>
+          <li (click)="onLinkChange()" [routerLink]="['basic-info']" routerLinkActive="active-list">
+            <mat-icon>perm_identity</mat-icon>
+            <span> Basic Information</span>
+          </li>
+          <li (click)="onLinkChange()" [routerLink]="['order-list']" routerLinkActive="active-list">
+            <mat-icon>toc</mat-icon>
+            <span> Order List</span>
+          </li>
+          <li (click)="onLinkChange()" [routerLink]="['wishlist']" routerLinkActive="active-list">
+            <mat-icon>favorite</mat-icon>
+            <span>Wishlist</span>
+          </li>
+          <li (click)="onLogout()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </li>
+        </ul>
+      </div>
+  
+  
+    </div>
+    <div class="content-view" >
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  

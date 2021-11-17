@@ -3,7 +3,18 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiBaseLink: 'http://localhost:3000',
+  // apiBaseLink: 'https://api.emedilife.com.bd',
+  ftpBaseLink: 'http://localhost:3000',
+  // ftpBaseLink: 'https://ftp.emedilife.com.bd',
+  appBaseUrl: '/',
+  userBaseUrl: '/account',
+  userLoginUrl: '/login',
+  adminLoginUrl: 'admin/login',
+  adminBaseUrl: 'admin',
+  storageSecret: 'SOFT_2021_IT_1998',
+  VERSION: 1
 };
 
 /*

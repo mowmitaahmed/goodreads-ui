@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <div class="main-content">
+    <div class="product-container" *ngIf="viewType === 'grid'">
+      <app-product-card-one
+        *ngFor="let product of products | paginate: { itemsPerPage: productsPerPage, currentPage: currentPage, totalItems: totalProducts }"
+        [product]="product"></app-product-card-one>
+    </div> <!-- END Product Container -->
+
+    <div class="pagination-container">
+      <pagination-controls
+        class="product-pagination"
+        [autoHide]="true"
+        [maxSize]="5"
+        (pageChange)="onPageChanged($event)">
+      </pagination-controls>
+    </div>     <!-- END PAGINATION -->
+  </div> <!-- END MAIN CONTAINER AREA -->
+</div>
+
+<!-- NO DATA TEMPLATE -->
+<ng-template #noData>
+  <div style="margin-top: 50px; text-align: center">
+    <h2>No Product Found</h2>
+  </div>
+</ng-template>
