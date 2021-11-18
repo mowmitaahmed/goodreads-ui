@@ -3,9 +3,9 @@ import {ProductService} from '../../services/product.service';
 
 import {NgForm} from '@angular/forms';
 import {Cart} from '../../interfaces/cart';
-// import {UserDataService} from '../../services/user-data.service';
+import {UserDataService} from '../../services/user-data.service';
 import {UserService} from '../../services/user.service';
-// import {ReloadService} from '../../services/reload.service';
+import {ReloadService} from '../../services/reload.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UiService} from 'src/app/services/ui.service';
 import {PriceData, Product} from '../../interfaces/product';
@@ -41,7 +41,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   // All Product
   productSlug !: string | any;
-  product ?: Product;
+  product ?: Product | any;
 
   // Image Zoom & View Area
   @ViewChild('zoomViewer', {static: true}) zoomViewer: any;
@@ -52,7 +52,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   selectedQty = 1;
 
   // CARTS
-  carts: Cart[] = [];
+  carts: Cart[] | any = [] ;
   existsInCart = false;
 
   // Image Loader
@@ -68,7 +68,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   // Unit Type
   productPriceData: PriceData[] = [];
-  selectedPriceData ?: PriceData | undefined;
+  selectedPriceData ?: PriceData | any;
 
   // User
   user ?: User | undefined;
@@ -76,9 +76,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private productService: ProductService,
-    // private userDataService: UserDataService,
+    private userDataService: UserDataService,
     private userService: UserService,
-    // private reloadService: ReloadService,
+    private reloadService: ReloadService,
     private activatedRoute: ActivatedRoute,
     public uiService: UiService,
     private cartService: CartService,
@@ -94,9 +94,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       this.getSingleProductBySlug();
     });
 
-    // this.reloadService.refreshCart$.subscribe(() => {
-    //   this.getCartsItems();
-    // });
+    this.reloadService.refreshCart$.subscribe(() => {
+      this.getCartsItems();
+    });
   }
 
   
@@ -110,28 +110,42 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.spinner.hide();
         this.product = res.data;
-        console.log(this.product);
-        // this.productPriceData = this.product.prices;
+        console.log('Single Product:',this.product);
+        this.productPriceData = this.product.price;
+        console.log('Single Product Price:',this.productPriceData);
 
         // Recommended Product
 
         if (this.product) {
-          // if (this.productPriceData && this.productPriceData.length) {
-          //   this.selectedPriceData = this.productPriceData[0];
-          // }
+          if (this.productPriceData) {
+            this.selectedPriceData = this.productPriceData;
+            console.log('selectedPriceData:',this.productPriceData);
+          }
           // this.updateBreadcrumb();
           this.setDefaultImage();
-          // this.getCartsItems();
+          this.getCartsItems();
           
-          // if (this.ifLoggedIn()) {
-          //   this.getLoggedInUserInfo();
-          // }
+          if (this.ifLoggedIn()) {
+            this.getLoggedInUserInfo();
+          }
         }
       }, error => {
         this.spinner.hide();
         console.log(error);
       });
   }
+
+  
+  addItemToCartDB(data: Cart) {
+    this.userDataService.addItemToUserCart(data)
+      .subscribe(res => {
+        this.uiService.success(res.message);
+        this.reloadService.needRefreshCart$();
+      }, error => {
+        console.log(error);
+      });
+  }
+
   /**
    * IMAGE ZOOM & VIEW AREA
    */
@@ -184,6 +198,91 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       this.selectedQty -= 1;
     }
 
+    
+  /**
+   * CART FUNCTIONALITY
+   */
+
+  buyNow() {
+    this.addToCart();
+  }
+
+  addToCart() {
+    const data: Cart = {
+      product: this.product?._id,
+      selectedQty: this.selectedQty,
+      priceId: this.selectedPriceData
+    };
+    console.log('data',this.selectedPriceData);
+
+    if (this.userService.getUserStatus()) {
+      this.addItemToCartDB(data);
+    } else {
+      this.cartService.addCartItemToLocalStorage(data);
+      this.reloadService.needRefreshCart$();
+    }
+  }
+
+  // GET CARTS DATA
+  private getCartsItems() {
+    if (this.userService.getUserStatus()) {
+      this.getCartItemList();
+    } else {
+      this.getCarsItemFromLocal();
+    }
+
+  }
+
+  private getCartItemList() {
+    this.subDataTwo = this.cartService.getCartItemList()
+      .subscribe(res => {
+        this.carts = res.data;
+        // @ts-ignore
+        const existsOnCart = this.carts.find(item => item.product._id === this.product._id);
+        if (existsOnCart) {
+          this.existsInCart = true;
+          this.selectedQty = existsOnCart.selectedQty;
+          this.selectedPriceData = this.productPriceData.find(f => f._id === existsOnCart.priceId);
+        }
+      }, error => {
+        console.log(error);
+      });
+  }
+
+  private getCarsItemFromLocal() {
+    const items = this.cartService.getCartItemFromLocalStorage();
+
+    if (items && items.length > 0) {
+      const ids: string[] = items.map(m => m.product as string);
+      this.productService.getSpecificProductsById(ids, 'productName productSlug  price discountType discountAmount  quantity images')
+        .subscribe(res => {
+          const products = res.data;
+          if (products && products.length > 0) {
+            this.carts = items.map(t1 => ({...t1, ...{product: products.find(t2 => t2._id === t1.product)}}));
+            // @ts-ignore
+            const existsOnCart = this.carts.find(item => item.product._id === this.product._id);
+            if (existsOnCart) {
+              this.existsInCart = true;
+              this.selectedQty = existsOnCart.selectedQty;
+              this.selectedPriceData = this.productPriceData.find(f => f._id === existsOnCart.priceId);
+            }
+          }
+        });
+    } else {
+      this.carts = [];
+    }
+  }
+
+  private getLoggedInUserInfo() {
+    const select = 'phoneNo fullName profileImg email';
+    this.subDataSix = this.userDataService.getLoggedInUserInfo(select)
+      .subscribe(res => {
+        this.user = res.data;
+      }, error => {
+        console.log(error);
+      });
+  }
+
       /**
    * Breadcrumb CUSTOM
    */
@@ -204,6 +303,12 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   //     }
   //   ];
   // }
+
+  
+
+  ifLoggedIn() {
+    return this.userService.getUserStatus();
+  }
   
   ngOnDestroy() {
     if (this.subRoute) {

@@ -8,7 +8,7 @@
               <mat-icon>edit</mat-icon>
             </button>
           </div>
-          <input [hidden]="true" #profileImagePicker type="file" accept="image/*"/>
+          <input [hidden]="true" #profileImagePicker type="file" (change)="fileChangeEvent($event)" accept="image/*"/>
         </div>
         <div class="desc">
           <h2>{{user?.fullName}}</h2>
@@ -21,14 +21,6 @@
           <li (click)="onLinkChange()" [routerLink]="['basic-info']" routerLinkActive="active-list">
             <mat-icon>perm_identity</mat-icon>
             <span> Basic Information</span>
-          </li>
-          <li (click)="onLinkChange()" [routerLink]="['order-list']" routerLinkActive="active-list">
-            <mat-icon>toc</mat-icon>
-            <span> Order List</span>
-          </li>
-          <li (click)="onLinkChange()" [routerLink]="['wishlist']" routerLinkActive="active-list">
-            <mat-icon>favorite</mat-icon>
-            <span>Wishlist</span>
           </li>
           <li (click)="onLogout()">
             <mat-icon>logout</mat-icon>

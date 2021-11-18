@@ -1,0 +1,224 @@
+<!-- {{carts | json}} -->
+<!--cart-area-->
+<div class="cart-area" *ngIf="carts && carts.length > 0 else cartEmpty">
+    <div class="container">
+      <!---cart-area-main-->
+        <div class="cart-area-main">
+            <!--cart-area-left-->
+            <div class="cart-area-left">
+                <!--cart-title-->
+                <div class="cart-title">
+                  <h3>Cart Items</h3>
+                </div>
+                <div class="cart-product-area">
+                  <!--cart-product-details-->
+                  <div class="cart-product-details" *ngFor="let c of carts; let i = index;">
+
+                    <!---cart-product-img-->
+                    <div class="cart-product-img">
+                      <img
+                        [src]="c?.product.images && c?.product.images.length > 0? c?.product.images[0] : '/assets/images/placeholder/test.png'"
+                        [alt]="c?.product?.productName">
+                    </div>
+                    <!---cart-product-info-->
+                    <div class="cart-product-info">
+
+                        <!--cart-title-->
+                        <div class="cart-title-area">
+                            <!--product-title-->
+                            <div class="product-title">
+                              <a href="javascript:">{{c?.product?.productName}}</a>
+                            </div>
+                            <!--cart-remove-->
+                            <div class="cart-remove">
+                              <span (click)="onDeleteCartItem(c?._id, c?.product?._id)"><i class="far fa-trash-alt"></i></span>
+                            </div>
+                        </div>
+                        <!--cart-product-info-body-->
+                        <div class="cart-product-info-body">
+                            <!---brand-->
+                            <div class="product-brand">
+                              <div><span>Brand:</span></div>
+                              <div><a href="javascript:">{{ c?.product?.brandSlug ? c?.product?.brandSlug : 'N/A'}}</a></div>
+                            </div>
+                            <!--cart-product-price-->
+                            <div class="cart-product-price">
+                                <!--discount-->
+                                <div class="cart-product-discount">
+                                  <span>MRP <del>{{c?.product?.price}}</del></span>
+                                </div>
+                                <!--cart-product-main-price-->
+                                <div class="cart-product-main-price">
+                                  <h3>৳ {{c?.product?.price - c?.product?.discountAmount}}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <!---cart-product-bottom-->
+                        <div class="cart-product-bottom">
+                            <!---bottom-left-->
+                            <div class="bottom-left">
+
+                            </div>
+                            <!--bottom-right-->
+                            <div class="bottom-right">
+                                <!--cart-items-count-->
+                                <div class="cart-items-count">
+                                    <!---mines-->
+                                    <div class="mines-btn">
+                                      <button (click)="decrementQty(c?._id, i, c?.selectedQty)" type="button">-</button>
+                                    </div>
+                                    <!---cart-input-box-->
+                                    <div class="cart-input-box">
+                                      <input type="text" name="item" [value]="c?.selectedQty" id="cart-value">
+                                    </div>
+                                    <!--cart-plus-->
+                                    <div class="plus-btn">
+                                      <button (click)="incrementQty(c?._id, i)" type="button">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <!---cart-product-->
+        
+                <!--responsive-cart-product-main-->
+                <div class="responsive-cart-product-main">
+                    <!--cart-product-->
+                    <div class="cart-product" *ngFor="let c of carts; let i = index;">
+                        <!--cart-product-img-->
+                        <div class="cart-product-img">
+                          <img
+                            [src]="c?.product.images && c?.product.images.length > 0? c?.product.images[0] : '/assets/images/placeholder/test.png'"
+                            [alt]="c?.product?.productName">
+                        </div>
+                        <!---cart-text-details-->
+                        <div class="cart-text-details">
+                            <!--product-left-->
+                            <div class="product-left">
+                                <!--product-title-->
+                                <div class="product-title">
+                                  <a href="javascript:">{{c?.product?.productName}}</a>
+                                </div>
+                                <div class="product-brand">
+                                  <div><a href="javascript:">{{ c?.product?.brandSlug ? c?.product?.brandSlug : 'N/A'}}</a></div>
+                                </div>
+                                <div class="cart-product-discount">
+                                  <span>MRP <del>{{c?.product?.price}}</del></span>
+                                </div>
+
+                                <!--cart-items-count-->
+                                <div class="cart-items-count">
+                                  <!---mines-->
+                                  <div class="mines-btn">
+                                    <button (click)="decrementQty(c?._id, i, c?.selectedQty)" type="button">-</button>
+                                  </div>
+                                  <!---cart-input-box-->
+                                  <div class="cart-input-box">
+                                    <input type="text" name="item" [value]="c?.selectedQty" id="cart-value">
+                                  </div>
+                                  <!--cart-plus-->
+                                  <div class="plus-btn">
+                                    <button (click)="incrementQty(c?._id, i)" type="button">+</button>
+                                  </div>
+                                </div>
+                            </div>
+                            <!---product-right-->
+                            <div class="product-right">
+                              <!---cart-item-delete-->
+                              <div class="cart-item-delete">
+                                <span (click)="onDeleteCartItem(c?._id, c?.product?._id)"><i class="far fa-trash-alt"></i></span>
+                              </div>
+                              <!---product-price-->
+                              <div class="product-price">
+                                <h3>{{c?.product?.price - c?.product?.discountAmount}}</h3>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!---cart-area-left-end-->
+      
+      
+            <!--cart-area-right-->
+            <div class="cart-area-right">
+              <!--cart-right-area-main-->
+              <div class="cart-right-area-main">
+                <!---payment-detals-->
+                <div class="payment-details-area" fxHide [fxShow]="carts && carts.length > 0">
+                  <h3>Payment Details</h3>
+                  <!---pay-details-main--->
+                  <div class="payment-details-main">
+                    <!--pay-details-left-->
+                    <div class="pay-details-left">
+                      <span>MRP</span>
+                    </div>
+                    <!--pay-details-right-->
+                    <div class="pay-details-right">
+                      <span>৳ {{cartSubTotal}}</span>
+                    </div>
+                  </div>
+                  <!---pay-details-main--->
+                  <div class="payment-details-main">
+                    <!--pay-details-left-->
+                    <div class="pay-details-left">
+                      <span>Delivery  Charge </span>
+                    </div>
+                    <!--pay-details-right-->
+                    <div class="pay-details-right">
+                      <span>৳ {{shippingChargeData && shippingChargeData?.deliveryInDhaka ? shippingChargeData?.deliveryInDhaka : 0}} (In Dhaka)</span>
+      <!--                <span *ngIf="theUserAddress !== 'Dhaka'">৳{{shippingCharge}} (Outside Dhaka)</span>-->
+                    </div>
+                  </div>
+                  <!---pay-details-main--->
+                  <div class="payment-details-main" *ngIf="couponData">
+                    <!--pay-details-left-->
+                    <div class="pay-details-left">
+                      <span>Coupon Discount </span>
+                    </div>
+                  </div>
+                  <!--total-->
+                  <div class="total-pay">
+                    <!---pay-details-main--->
+                    <div class="payment-details-main">
+                      <!--pay-details-left-->
+                      <div class="pay-details-left">
+                        <h4>Total</h4>
+                      </div>
+                      <!--pay-details-right-->
+                      <div class="pay-details-right">
+                        <h4>৳ {{ (cartSubTotal + (this.shippingChargeData && this.shippingChargeData.deliveryInDhaka ? this.shippingChargeData.deliveryInDhaka : 0)) - finalDiscount}}</h4>
+      <!--                  <h4>৳{{(cartSubTotal + shippingCharge - couponCalculation) < 0 ? 0 : ((cartSubTotal + shippingCharge - couponCalculation) | number : '': 'bn')}}</h4>-->
+                      </div>
+      <!--                <div class="pay-details-right" *ngIf="couponData">-->
+      <!--                  <h4>-->
+      <!--                    ৳{{(cartSubTotal + shippingCharge - couponCalculation) < 0 ? 0 : ((cartSubTotal + shippingCharge - couponCalculation) | number : '': 'bn')}}</h4>-->
+      <!--                </div>-->
+                    </div>
+                  </div><!--total-->
+                </div>
+
+                <!--checout-btn-->
+                <div class="checkout-btn">
+                  <button routerLink="/checkout">Proceed To Checkout</button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #cartEmpty>
+    <div class="empty-cart-card">
+      <div class="card-body">
+        <div class=" empty-cart-details">
+          <img src="/assets/images/png/empty-cart.png" class="img-fluid mb-4 mr-3" alt="">
+          <h3>Your Cart is Empty</h3>
+          <h4>Add something to make me happy :)</h4>
+          <a routerLink="/" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
+        </div>
+      </div>
+    </div>
+  </ng-template>

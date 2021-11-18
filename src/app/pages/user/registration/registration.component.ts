@@ -27,6 +27,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   // Static Data
   genders: Select[] = GENDERS;
 
+  // Modified Phone Number
+  mPhoneNumber !: string;
+
   constructor(
     public userService: UserService,
     private uiService: UiService,
@@ -71,9 +74,20 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.uiService.warn('Password must be at lest 6 characters!');
       return;
     }
+    console.log(this.dataForm.value.phoneNo);
 
-    // this.isLoading = true;
-    // this.spinner.show();
+    if (this.dataForm.value.phoneNo.length === 10) {
+      this.mPhoneNumber = '880' + this.dataForm.value.phoneNo;
+    } else if (this.dataForm.value.phoneNo.length === 11) {
+      this.mPhoneNumber = '88' + this.dataForm.value.phoneNo;
+    } else {
+      // this.dataForm.get('phoneNo').setErrors({invalid: true});
+      this.uiService.warn('Please enter a valid 11 digit phone no');
+      return;
+    }
+    this.isLoading = true;
+    console.log(this.mPhoneNumber);
+    this.spinner.show();
     
     this.userModelObj.phoneNo = this.dataForm.value.phoneNo;
     this.userModelObj.email = this.dataForm.value.email;
@@ -84,10 +98,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     // this.userModelObj.agree = this.dataForm.value.agree;
 
     console.log('userModelObj: ', this.userModelObj);
+
+    this.userService.userRegistration(this.userModelObj);
   }
   /**
    * HTTP REQ HANDLE
    */
+
+
    ngOnDestroy() {
 
   }

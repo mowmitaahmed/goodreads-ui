@@ -3,8 +3,10 @@
    <div class="card">
     <!--card-img-->
     <div class="card-img">
-      <a [routerLink]="['/', product?.brandSlug, product?.categorySlug, product?.productSlug]">
-        <!-- <img [defaultImage]="'/assets/images/placeholder/test.png'" [lazyLoad]="product?.images[0]"> -->
+
+      <!-- {{product?.images | json}} -->
+      <a [routerLink]="['/', product?.productSlug]">
+        <img [defaultImage]="'/assets/images/placeholder/test.png'" [lazyLoad]="product?.images[0]">
         <!-- <img src={{product.images[0]}} /> -->
       </a>
     </div>
@@ -24,7 +26,7 @@
        </div>
        <!--add-btn-->
        <div class="add-btn">
-         <a [routerLink]="['/', product?.brandSlug, product?.categorySlug, product?.productSlug]">Details</a>
+         <a [routerLink]="['/', product?.productSlug]">Details</a>
        </div>
      </div>
     </div>

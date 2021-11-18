@@ -6,6 +6,7 @@ export class RegistrationModel{
     password: string = '';
     confirmPassword: string = '';
     gender: string = '';
+    // isPhoneVerified: boolean = true;
     createdAt?: Date = new Date();
     updatedAt?: Date = new Date();
 }

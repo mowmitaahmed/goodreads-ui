@@ -28,8 +28,13 @@ const routes: Routes = [
       },
       {
         path: 'account',
-        // canActivate: [UserAuthGuard],
+        canActivate: [UserAuthGuard],
         loadChildren: () => import('./user/account/account.module').then(m => m.AccountModule),
+        data: {preload: true, delay: false}
+      },
+      {
+        path: 'cart',
+        loadChildren: () => import('./user/cart/cart.module').then(m => m.CartModule),
         data: {preload: true, delay: false}
       },
       {

@@ -21,6 +21,13 @@ export class StorageService {
     /**
    * ENCRYPT STORAGE
    */
+  addDataToEncryptLocal(data: any, key: string) {
+    encryptStorage.setItem(key, data);
+  }
+  
+  getDataFromEncryptLocal(key: string) {
+    return encryptStorage.getItem(key);
+  }
   
      removeDataFromEncryptLocal(key: string) {
         encryptStorage.removeItem(key);

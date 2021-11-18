@@ -8,7 +8,7 @@ export interface Product {
   productSlug: string;
   sku: string;
   price: number;
-  prices: PriceData[];
+  prices: PriceData[] | any;
   discountType: number;
   discountAmount: number;
   quantity: number;

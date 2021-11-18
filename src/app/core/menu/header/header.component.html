@@ -1,8 +1,8 @@
-<header class="header">
-    <div class="container">
+<header class="header" [class.toolbar-small]="scrollPosition > 714">
+  <div class="container" [ngClass]="{'toolbar-scroll': scrollPosition > 714}">
         <div class="logo">
         <!--menu-bar-->
-        <div class="menu-bar no-select">
+        <div class="menu-bar no-select" (click)="onToggleSidenav()">
             <span><i class="fa fa-bars"></i></span>
         </div>
         <div>
@@ -19,9 +19,9 @@
         <div class="header-right-responsive">
           <ul>
             <li><a routerLink="/login"><i class="fas fa-user-circle"></i> <span>
-                Log In / Sign Up
+              {{isUserAuth ? 'My Account' : 'Log In / Sign Up'}}
             </span></a></li>
-            <li><a><i class="fa fa-shopping-cart"></i> <span>Cart</span></a></li>
+            <li><a href="/cart" (click)="cartSlideActive()"><i class="fa fa-shopping-cart"></i> <span>Cart(0)</span></a></li>
           </ul>
         </div>
   
@@ -29,9 +29,10 @@
         <div class="header-right-main">
           <ul>
             <li><a routerLink="/login"><i class="fas fa-user-circle"></i> <span>
-                Log In / Sign Up
+              {{isUserAuth ? 'My Account' : 'Log In / Sign Up'}}
             </span></a></li>
-            <li><a><i class="fa fa-shopping-cart"></i> <span>Cart</span></a></li>
+            <!-- <li>{{carts | json}}</li> -->
+            <li><a href="/cart" (click)="cartSlideActive()"><i class="fa fa-shopping-cart"></i> <span>Cart({{carts.length}})</span></a></li>
           </ul>
   
         </div>

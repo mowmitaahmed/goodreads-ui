@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from '../../../../interfaces/user';
 import {MatDialog} from '@angular/material/dialog';
-// import {UserDataService} from '../../../../services/user-data.service';
-// import {ReloadService} from '../../../../services/reload.service';
+import {UserDataService} from '../../../../services/user-data.service';
+import {ReloadService} from '../../../../services/reload.service';
 import {EditBasicInfoComponent} from '../../../../shared/dialog-view/edit-basic-info/edit-basic-info.component';
 
 @Component({
@@ -16,11 +16,25 @@ export class BasicInfoComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    // protected userDataService: UserDataService,
-    // private reloadService: ReloadService
+    protected userDataService: UserDataService,
+    private reloadService: ReloadService
   ) { }
 
   ngOnInit(): void {
+    this.reloadService.refreshUser$.subscribe(() => {
+      this.getLoggedInUserInfo();
+    });
+    this.getLoggedInUserInfo();
+  }
+
+  private getLoggedInUserInfo() {
+    const select = '-password';
+    this.userDataService.getLoggedInUserInfo(select)
+      .subscribe(res => {
+        this.user = res.data;
+      }, error => {
+        console.log(error);
+      });
   }
 
   openNewDialog() {

@@ -10,6 +10,9 @@ import { BasicInfoComponent } from './basic-info/basic-info.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { OrderDetailsComponent } from './order-details/order-details.component';
+import {EditBasicInfoModule} from '../../../shared/dialog-view/edit-basic-info/edit-basic-info.module';
+import { ImageCropComponent } from './image-crop/image-crop.component';
+import {ImageCropperModule} from 'ngx-image-cropper';
 
 
 @NgModule({
@@ -17,7 +20,8 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
     AccountComponent,
     BasicInfoComponent,
     OrderListComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    ImageCropComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +30,9 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    EditBasicInfoModule,
+    ImageCropperModule
   ]
 })
 export class AccountModule { }

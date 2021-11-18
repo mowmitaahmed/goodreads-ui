@@ -5,7 +5,6 @@ import {BasicInfoComponent} from './basic-info/basic-info.component';
 import {OrderListComponent} from './order-list/order-list.component';
 // import {ChangePasswordComponent} from './change-password/change-password.component';
 import {OrderDetailsComponent} from './order-details/order-details.component';
-// import {WishlistComponent} from './wishlist/wishlist.component';
 
 
 const routes: Routes = [

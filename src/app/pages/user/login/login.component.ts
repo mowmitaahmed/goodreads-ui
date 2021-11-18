@@ -36,26 +36,21 @@ export class LoginComponent implements OnInit {
   
 
   onSubmitForm() {
-
-    this.userModelObj.password = this.formData.value.password;
-    this.userModelObj.email = this.formData.value.username;
-
-    console.log('userModelObj: ', this.userModelObj);
-    // if (this.formData.invalid) {
-    //   return;
-    // }
+    if (this.formData.invalid) {
+      return;
+    }
     // const isValidUsername = this.utilsService.checkValidPhone(this.formData.value.username);
     // if (!isValidUsername) {
-    //   this.formData.get('username').setErrors({invalid: true});
+    //   // this.formData.get('username').setErrors({invalid: true});
     //   this.uiService.warn('Please enter a valid phone number');
     //   return;
     // }
-    // if (this.formData.value.password.length < 6) {
-    //   this.uiService.warn('Password must be at lest 6 characters!');
-    //   return;
-    // }
-    // this.spinner.show();
-    // this.userService.userLogin(this.formData.value);
+    if (this.formData.value.password.length < 6) {
+      this.uiService.warn('Password must be at lest 6 characters!');
+      return;
+    }
+    this.spinner.show();
+    this.userService.userLogin(this.formData.value);
   }
 
 }

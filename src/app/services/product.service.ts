@@ -31,4 +31,9 @@ export class ProductService {
   getSingleProductBySlug(slug: string) {
     return this.http.get<{ data: Product, message: string }>(API_PRODUCT + 'get-single-product-by-slug/' + slug);
   }
+
+  
+  getSpecificProductsById(ids: string[], select?: string) {
+    return this.http.post<{ data: Product[] }>(API_PRODUCT + 'get-specific-products-by-ids', {ids, select});
+  }
 }

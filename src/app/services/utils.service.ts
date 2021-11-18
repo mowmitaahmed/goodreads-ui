@@ -16,8 +16,32 @@ export class UtilsService {
     }
 
 
+  /**
+   * UTILS
+   */
+
+   getDateWithCurrentTime(date: Date): Date {
+    const _ = moment();
+    // const newDate = moment(date).add({hours: _.hour(), minutes:_.minute() , seconds:_.second()});
+    const newDate = moment(date).add({hours: _.hour(), minutes: _.minute()});
+    return newDate.toDate();
+  }
+
+  public toFixedNumber( value: number, dp: number ){
+    return +parseFloat(String(value)).toFixed( dp );
+  }
+
     /**
-     * UTILS
-     */
+   * GET RANDOM NUMBER
+   */
+  getRandomInt(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  
+     getImageName(originalName: string): string {
+      const array = originalName.split('.');
+      array.pop();
+      return array.join('');
+    }
 
 }
