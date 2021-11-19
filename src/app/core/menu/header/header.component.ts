@@ -17,6 +17,8 @@ import {ReloadService} from '../../../services/reload.service';
 import {Cart} from '../../../interfaces/cart';
 import {DATABASE_KEY} from '../../utils/global-variable';
 import {UiService} from '../../../services/ui.service';
+import {CategoryService} from '../../../services/category.service';
+import {ProductCategory} from '../../../interfaces/product-category';
 
 @Component({
   selector: 'app-header',
@@ -25,6 +27,8 @@ import {UiService} from '../../../services/ui.service';
   providers: [CartPricePipe]
 })
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
+  // navItems: NavItems[];
+  navItems: ProductCategory[] = [];
 
   @Output() sidenavNavToggle = new EventEmitter();
 
@@ -51,6 +55,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private productService: ProductService,
     public router: Router,
+    private categoryService: CategoryService,
     // private promoPageService: PromoPageService,
     public userService: UserService,
     public userDataService: UserDataService,
@@ -62,6 +67,10 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.reloadService.refreshCategories$
+      .subscribe(() => {
+        this.getAllCategory();
+      });
 
     this.userService.getUserStatusListener().subscribe(() => {
       this.isUserAuth = this.userService.getUserStatus();
@@ -79,7 +88,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
       this.getCartsItems(true);
     });
     this.getCartsItems();
-
+    this.getAllCategory();
     // this.getPromoPage();
   }
 
@@ -88,7 +97,16 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     /**
    * HTTP REQ HANDLE
    */
+     private getAllCategory() {
 
+      this.categoryService.getAllCategory()
+        .subscribe(res => {
+          this.navItems = res.data;
+          console.log('Nav Iitems', this.navItems);
+        }, error => {
+          console.log(error);
+        });
+    }
      private getLoggedInUserInfo() {
       const select = 'fullName';
       this.userDataService.getLoggedInUserInfo(select)
@@ -144,7 +162,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
       this.cartService.getCartItemList()
         .subscribe(res => {
           this.carts = res.data;
-          console.log('Header cart', this.carts);
           if (refresh) {
             // console.log('Iam on Cart trigger');
             this.cartSlide = true;

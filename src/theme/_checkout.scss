@@ -1,0 +1,234 @@
+@import '../theme/variables';
+@import '../theme/cart';
+
+.container {
+  max-width: 1440px;
+  width: 100%;
+  display: block;
+  margin: auto;
+  padding: 0px 10px;
+}
+
+@media(min-width: 960px) and (max-width: 1440px) {
+  .container {
+    width: 91% !important;
+    gap: 30px !important;
+  }
+}
+
+/*** checkout-title-area ***/
+.checkout-title-area {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  margin-top: 150px;
+  margin-bottom: 50px;
+}
+
+.checout-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #a4a4a4;
+}
+
+.checkout-price {
+  display: block;
+  max-width: 200px;
+  width: 100%;
+  text-align: right;
+}
+
+.checkout-price span {
+  background-color: $color-primary-2;
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  display: inline-block;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  letter-spacing: 1px;
+}
+
+.checkout-price span i {
+  display: inline-block;
+  margin-right: 7px;
+}
+
+.checkout-price span small {
+  font-size: 16px;
+  display: inline-block;
+}
+
+.cupon-area {
+  max-width: 500px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+/**** checkout *****/
+.checkout {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+}
+
+.checkout-main {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 30px;
+  box-sizing: border-box;
+}
+
+@media(max-width: 1300px) {
+  .checkout-main {
+    grid-template-columns: 1.3fr 1fr;
+  }
+}
+
+@media(max-width: 1130px) {
+  .checkout-main {
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 30px 20px;
+  }
+  .checkout-cart-area {
+    max-width: 850px;
+    width: 100%;
+  }
+}
+
+/**** checkout-form-area ****/
+.checkout-form-area {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+}
+
+.form-info-top, .form-info-bottom {
+  display: block;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid $color-primary;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 7px;
+  margin-bottom: 30px;
+}
+
+.user-data-input-area {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.user-data-input-area mat-form-field {
+  display: block;
+  width: 100%;
+  border-radius: 20px;
+}
+
+.user-name-area, .user-town-area {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 20px;
+  box-sizing: border-box;
+}
+
+.delivery-title {
+  display: block;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #a4a4a4;
+}
+
+.delivery-title h3 {
+  color: #484848;
+  font-family: $font-en-primary;
+  font-weight: 600;
+  font-size: 17px;
+  display: block;
+  letter-spacing: 0.5px;
+}
+
+@media(max-width: 500px) {
+  .user-name-area, .user-town-area {
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 0px;
+
+  }
+}
+
+.payment-details-area {
+  background-color: #f3f3f3;
+  margin-top: 10px;
+}
+
+.checkout-paymethod {
+  max-width: 250px;
+  width: 100%;
+  //display: grid;
+  //grid-template-rows: auto;
+  //grid-template-columns: repeat(2, 1fr);
+  //grid-gap: 10px 40px;
+  margin: 25px auto 40px auto;
+}
+
+.paymethod {
+  width: 100%;
+  //display: flex;
+  //align-items: center;
+  //justify-content: center;
+  //gap: 15px;
+}
+
+.radio-box {
+  width: 100%;
+  mat-radio-button {
+    &:first-child {
+      margin-right: 20px;
+    }
+  }
+}
+
+.method-img {
+  width: 70px;
+  height: 70px;
+  border: 1px solid $color-primary;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.method-img img {
+  height: 65px;
+  width: 65px;
+  border-radius: 5px;
+}
+
+
+::ng-deep.form-info-top .mat-form-field-outline-thick {
+  color: $color-primary;
+}
+
+::ng-deep.form-info-top .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: $color-primary;
+}
+
+::ng-deep.form-info-top .mat-form-field.mat-focused .mat-form-field-label {
+  color: $color-primary;
+}
+
+::ng-deep.paymethod .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: $color-primary;
+}
+
+::ng-deep.paymethod .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: $color-primary;
+}

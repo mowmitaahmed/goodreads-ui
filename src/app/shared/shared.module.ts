@@ -14,8 +14,8 @@ import {FormsModule} from '@angular/forms';
 import { SnackbarNotificationComponent } from './components/ui/snackbar-notification/snackbar-notification.component';
 import { CartViewDialogComponent } from './components/cart-view-dialog/cart-view-dialog.component';
 import { BottomSheetViewComponent } from './components/ui/bottom-sheet-view/bottom-sheet-view.component';
-// import { ProductCartViewOneComponent } from './lazy-component/product-cart-view-one/product-cart-view-one.component';
-// import { EditBasicInfoComponent } from './dialog-view/edit-basic-info/edit-basic-info.component';
+import { ConfirmDialogComponent } from './components/ui/confirm-dialog/confirm-dialog.component';
+// import { ProductCardAdminComponent } from './lazy-component/product-card-admin/product-card-admin.component';
 
 @NgModule({
     imports: [
@@ -37,8 +37,8 @@ import { BottomSheetViewComponent } from './components/ui/bottom-sheet-view/bott
          CartViewDialogComponent,
          BottomSheetViewComponent,
          FooterComponent,
-        //  ProductCartViewOneComponent,
-        //  EditBasicInfoComponent
+         ConfirmDialogComponent,
+        //  ProductCardAdminComponent
   ],
     providers: [],
     entryComponents: []

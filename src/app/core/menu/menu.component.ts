@@ -4,10 +4,12 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 import {MenuSide} from '../../interfaces/menu-side';
 import {CategoryMenu} from '../../interfaces/category-menu';
 import {NavigationEnd, Router} from '@angular/router';
-
+import {MenuCtrService} from '../../services/menu-ctr.service';
 import {UserService} from '../../services/user.service';
-// import {UserDataService} from '../../services/user-data.service';
+import {UserDataService} from '../../services/user-data.service';
 import {User} from '../../interfaces/user';
+import {ReloadService} from '../../services/reload.service';
+// import { navitems } from '../utils/nav-items';
 
 @Component({
   selector: 'app-menu',
@@ -29,11 +31,13 @@ export class MenuComponent implements OnInit, AfterViewInit {
 
   // MENU
   menus: MenuSide[] = [
-    {id: '1', name: 'Home', routerLink: '/'},
-    {id: '2', name: 'Products', routerLink: '/all-product-list'},
-    {id: '5', name: 'Blog', routerLink: '/blog'},
-    {id: '6', name: 'About Us', routerLink: '/aboutus'},
-    {id: '7', name: 'Contact Us', routerLink: '/contact'},
+    {id: '1', name: 'Home', routerLink: '/', parentId: null, hasSubMenu: false, depth: 0},
+    {id: '2', name: 'Products', routerLink: '/all-product-list', parentId: null, hasSubMenu: false, depth: 0},
+    {id: '3', name: 'Installation & Repair', routerLink: null, parentId: null, hasSubMenu: true, depth: 0},
+    {id: '4', name: 'Offers', routerLink: null, parentId: null, hasSubMenu: true, depth: 0},
+    {id: '5', name: 'Blog', routerLink: '/blog', parentId: null, hasSubMenu: false, depth: 0},
+    {id: '6', name: 'About Us', routerLink: null, parentId: null, hasSubMenu: true, depth: 0},
+    {id: '7', name: 'Contact Us', routerLink: '/contact', parentId: null, hasSubMenu: false, depth: 0},
   ];
 
 
@@ -44,11 +48,12 @@ export class MenuComponent implements OnInit, AfterViewInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    // private menuCtrService: MenuCtrService,
+    private menuCtrService: MenuCtrService,
     public router: Router,
+    private reloadService: ReloadService,
     // private menuService: MenuService,
     private userService: UserService,
-    // private userDataService: UserDataService,
+    private userDataService: UserDataService,
   ) {
     window.addEventListener('scroll', this.scrolling, true);
   }
@@ -58,7 +63,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
     this.userService.getUserStatusListener().subscribe(() => {
       this.isUserAuth = this.userService.getUserStatus();
       if (this.isUserAuth) {
-        // this.getLoggedInUserInfo();
+        this.getLoggedInUserInfo();
       }
     });
     this.isUserAuth = this.userService.getUserStatus();
@@ -66,6 +71,8 @@ export class MenuComponent implements OnInit, AfterViewInit {
       // this.getLoggedInUserInfo();
     }
 
+    // this.navItems=navitems
+    // console.log(navitems)
   }
 
 
@@ -108,15 +115,16 @@ export class MenuComponent implements OnInit, AfterViewInit {
   //     });
   // }
 
-  // private getLoggedInUserInfo() {
-  //   const select = 'fullName profileImg phoneNo';
-  //   this.userDataService.getLoggedInUserInfo(select)
-  //     .subscribe(res => {
-  //       this.user = res.data;
-  //     }, error => {
-  //       console.log(error);
-  //     });
-  // }
+
+  private getLoggedInUserInfo() {
+    const select = 'fullName profileImg phoneNo';
+    this.userDataService.getLoggedInUserInfo(select)
+      .subscribe(res => {
+        this.user = res.data;
+      }, error => {
+        console.log(error);
+      });
+  }
 
   
   ngAfterViewInit() {

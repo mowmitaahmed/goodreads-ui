@@ -1,5 +1,7 @@
 
+import {ProductAttribute} from './product-attribute';
 export interface ProductCategory {
+  attributes: ProductAttribute[];
   readOnly?: boolean;
   _id?: string;
   categoryName: string;

@@ -18,6 +18,19 @@ export class StorageService {
   ) {
   }
 
+
+  storeDataToSessionStorage(key: string, data: any) {
+    sessionStorage.setItem(key, JSON.stringify(data));
+  }
+
+  getDataFromSessionStorage(key: string): any {
+    const data = sessionStorage.getItem(key);
+    return JSON.parse(data);
+  }
+
+  removeSessionData(key: string) {
+    sessionStorage.removeItem(key);
+  }
     /**
    * ENCRYPT STORAGE
    */
@@ -32,4 +45,18 @@ export class StorageService {
      removeDataFromEncryptLocal(key: string) {
         encryptStorage.removeItem(key);
       }
+
+      
+
+  /**
+   * DYNAMIC SESSION DATA
+   */
+  storeInputData(data: any, key: string) {
+    sessionStorage.setItem(key, JSON.stringify(data));
+  }
+
+  getStoredInput(key: string): any {
+    const data = sessionStorage.getItem(key);
+    return JSON.parse(data);
+  }
 }

@@ -1,0 +1,198 @@
+<!-- {{name |json}} -->
+<!--product-form-->
+<section class="product-form">
+  <div class="container">
+    <!---product-form-main-->
+    <div class="product-form-main">
+
+      <!--******** product-card ********-->
+      <div class="product-card">
+        <!-- card-area -->
+        <mat-card class="card-area">
+          <!-- header-card -->
+          <mat-card-header class="card-header-area">
+            <!-- card-title -->
+            <div class="card-title">
+              <mat-card-title>Add New Product
+                <mat-checkbox [(ngModel)]="autoSlug" (change)="autoGenerateSlug()" class="check">Auto Slug
+                </mat-checkbox>
+              </mat-card-title>
+
+            </div>
+          </mat-card-header>
+
+          <!--card-content-->
+          <mat-card-content class="card-content">
+            <!--***** card-subtitle *****-->
+            <div class="sub-title">
+              <h2>image upload <span>(max 5 max image)</span></h2>
+            </div>
+            <!--***** card-plush ******-->
+            <!--            <div class="plus-box" (click)="onHoldInputData()"-->
+            <!--                 [routerLink]="[ id ? '../../../' : '../../', 'image-gallery']"-->
+            <!--                 [state]="{url: router.url}"-->
+            <!--            >-->
+            <div class="plus-box" (click)="openComponentDialog()">
+              <span>+</span>
+            </div>
+            <div *ngIf="chooseImage && chooseImage.length > 0" class="img-container" cdkDropList
+                 cdkDropListOrientation="vertical" (cdkDropListDropped)="drop($event)">
+              <div class="preview" *ngFor="let data of chooseImage" cdkDrag>
+                <img [src]="data" [alt]="data">
+                <div class="overlay-ac">
+                  <button mat-icon-button color="warn" (click)="removeSelectImage(data)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+
+        </mat-card>
+
+      </div>
+
+      <!--product-form-details-->
+      <div class="product-form-details">
+        <!---******* form-area *******-->
+        <form [formGroup]="dataForm!!" (ngSubmit)="onSubmit()" #formTemplate="ngForm">
+          <!---******* form-area-top *******-->
+          <div class="form-area-top">
+            <!--***** Name-area *****-->
+            <div>
+              <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="name" type="text" formControlName="productName" required>
+                <mat-error></mat-error>
+              </mat-form-field>
+
+            </div>
+            <!--slug-->
+            <div>
+              <mat-form-field appearance="outline">
+                <mat-label>Slug</mat-label>
+                <input [readonly]="autoSlug" matInput placeholder="slug" type="text" formControlName="productSlug"
+                       required>
+                <mat-error></mat-error>
+              </mat-form-field>
+            </div>
+            <!--sku-->
+           <div>
+             <mat-form-field appearance="outline">
+               <mat-label>Sku</mat-label>
+               <input matInput placeholder="sku" type="text" formControlName="sku">
+               <mat-error></mat-error>
+             </mat-form-field>
+           </div>
+            <!--price-->
+           <div>
+             <mat-form-field appearance="outline">
+               <mat-label>Price</mat-label>
+               <input matInput placeholder="price" type="number" formControlName="price" required digitOnly>
+               <mat-error></mat-error>
+             </mat-form-field>
+           </div>
+            <!--discountType-->
+           <div>
+             <mat-form-field appearance="outline">
+               <mat-label>Discount Type</mat-label>
+               <mat-select formControlName="discountType">
+                 <mat-option [value]="null">None</mat-option>
+                 <mat-option *ngFor="let discount of discountType"
+                              [value]="discount.value">{{discount.viewValue}}</mat-option>
+               </mat-select>
+             </mat-form-field>
+           </div>
+            <!---discountAmount-->
+           <div *ngIf="dataForm.value.discountType">
+             <mat-form-field appearance="outline">
+               <mat-label>Discount Amount</mat-label>
+               <input matInput placeholder="price" type="number" formControlName="discountAmount" digitOnly>
+               <mat-error></mat-error>
+             </mat-form-field>
+           </div>
+
+
+
+            <div>
+              <mat-form-field appearance="outline">
+                <mat-label>Category</mat-label>
+                <mat-select [disableOptionCentering]="true" #select placeholder="Select category" required
+                            (selectionChange)="onSelectCategory($event)"
+                            formControlName="category">
+                  <mat-select-filter [placeholder]="'Filter Category List'"
+                                     *ngIf="select.focused"
+                                     [array]="categories"
+                                     [displayMember]="'categoryName'"
+                                     (filteredReturn)="filteredCatList = $event"></mat-select-filter>
+                  <mat-option *ngFor="let cat of filteredCatList" [value]="cat._id">
+                    {{cat.categoryName}}
+                  </mat-option>
+                </mat-select>
+                <mat-error>This field is required</mat-error>
+              </mat-form-field>
+            </div> <!-- END Category -->
+
+            <div>
+              <mat-form-field appearance="outline">
+                <mat-label>Brand</mat-label>
+                <mat-select [disableOptionCentering]="true" #select3 placeholder="Select brand" required
+                            formControlName="brand">
+                  <mat-select-filter [placeholder]="'Filter brand List'"
+                                     *ngIf="select3.focused"
+                                     [array]="brands"
+                                     [displayMember]="'brandName'"
+                                     (filteredReturn)="filteredBrandList = $event"></mat-select-filter>
+                  <mat-option *ngFor="let cat of filteredBrandList" [value]="cat._id">
+                    {{cat.brandName}}
+                  </mat-option>
+                </mat-select>
+                <mat-error>This field is required</mat-error>
+              </mat-form-field>
+            </div> <!-- END Brand -->
+
+
+          </div>
+
+
+          <div fxLayout="row" fxLayoutGap="10px" class="d-flex">
+            <!---brand-->
+
+
+            <!---Product Visibility-->
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Product Visibility</mat-label>
+              <mat-select formControlName="productVisibility">
+                <mat-option *ngFor="let data of productsVisibilities"
+                            [value]="data.value">{{data.viewValue}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          </div>
+
+          <div class="editor">
+            <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
+            <ngx-editor [editor]="editor" placeholder="Enter product full specification" formControlName="description"
+                        outputFormat="html"></ngx-editor>
+          </div>
+
+          <!-- ***   submit-btn *****-->
+          <div class="submit-btn">
+            <button mat-raised-button color="primary" type="submit">Submit</button>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- TEMPLATE NGX SPINNER-->
+<ngx-spinner style="width: 100vw; height: 100vh" bdColor="rgba(0,0,0,0.25)" size="medium" color="#fff"
+             type="ball-clip-rotate"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

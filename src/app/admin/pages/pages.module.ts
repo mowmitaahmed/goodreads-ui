@@ -26,14 +26,12 @@ import {MatListModule} from '@angular/material/list';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {FlexLayoutModule} from '@angular/flex-layout';
-// import {EditorAuthRoleGuard} from '../../auth-guard/editor-auth-role.guard';
+
 import {ProductTableComponent} from './components/product-table/product-table.component';
-// import {PipesModule} from '../../shared/pipes/pipes.module';
+import {PipesModule} from '../../shared/pipes/pipes.module';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {ProductViewTableOneComponent} from './components/product-view-table-one/product-view-table-one.component';
-// import { BrandsComponent } from './catalog/brands/brands.component';
-// import {AdminAuthRoleGuard} from '../../auth-guard/admin-auth-role.guard';
-// import {CheckAuthAccessGuard} from '../../auth-guard/check-auth-access.guard';
+// import { ImageFolderComponent } from './gallery/image-folder/image-folder.component';
 
 
 const routes: Routes = [
@@ -52,31 +50,31 @@ const routes: Routes = [
         loadChildren: () => import('./catalog/brands/brands.module').then(m => m.BrandsModule),
         // canActivate: [CheckAuthAccessGuard]
       },
-      // {
-      //   path: 'categories',
-      //   loadChildren: () => import('./catalog/categories/categories.module').then(m => m.CategoriesModule),
-      //   canActivate: [CheckAuthAccessGuard]
-      // },
-      // {
-      //   path: 'products',
-      //   loadChildren: () => import('./products/products.module').then(m => m.ProductsModule),
-      //   canActivate: [CheckAuthAccessGuard]
-      // },
-      // {
-      //   path: 'add-product',
-      //   loadChildren: () => import('./products/add-product/add-product.module').then(m => m.AddProductModule),
-      //   canActivate: [CheckAuthAccessGuard]
-      // },
-      // {
-      //   path: 'image-gallery',
-      //   loadChildren: () => import('./gallery/image-gallery/image-gallery.module').then(m => m.ImageGalleryModule),
-      //   canActivate: [CheckAuthAccessGuard]
-      // },
-      // {
-      //   path: 'image-folder',
-      //   loadChildren: () => import('./gallery/image-folder/image-folder.module').then(m => m.ImageFolderModule),
-      //   canActivate: [CheckAuthAccessGuard]
-      // },
+      {
+        path: 'categories',
+        loadChildren: () => import('./catalog/categories/categories.module').then(m => m.CategoriesModule),
+        // canActivate: [CheckAuthAccessGuard]
+      },
+      {
+        path: 'products',
+        loadChildren: () => import('./products/products.module').then(m => m.ProductsModule),
+        // canActivate: [CheckAuthAccessGuard]
+      },
+      {
+        path: 'add-product',
+        loadChildren: () => import('./products/add-product/add-product.module').then(m => m.AddProductModule),
+        // canActivate: [CheckAuthAccessGuard]
+      },
+      {
+        path: 'image-gallery',
+        loadChildren: () => import('./gallery/image-gallery/image-gallery.module').then(m => m.ImageGalleryModule),
+        // canActivate: [CheckAuthAccessGuard]
+      },
+      {
+        path: 'image-folder',
+        loadChildren: () => import('./gallery/image-folder/image-folder.module').then(m => m.ImageFolderModule),
+        // canActivate: [CheckAuthAccessGuard]
+      },
       // {
       //   path: 'orders',
       //   canActivate: [CheckAuthAccessGuard, EditorAuthRoleGuard],
@@ -93,7 +91,7 @@ const routes: Routes = [
     SidenavListComponent,
     ProductTableComponent,
     ProductViewTableOneComponent,
-    // BrandsComponent,
+    // ImageFolderComponent,
   ],
   imports: [
     CommonModule,

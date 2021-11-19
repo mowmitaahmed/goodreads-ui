@@ -11,7 +11,7 @@ import {AddNewBrandComponent} from './add-new-brand/add-new-brand.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {NgxPaginationModule} from 'ngx-pagination';
 // import {DigitOnlyModule} from '@uiowa/digit-only';
-// import {PipesModule} from '../../../../shared/pipes/pipes.module';
+import {PipesModule} from '../../../../shared/pipes/pipes.module';
 
 
 @NgModule({
@@ -31,7 +31,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
         FlexLayoutModule,
         NgxPaginationModule,
         // DigitOnlyModule,
-        // PipesModule,
+        PipesModule,
     ]
 })
 export class BrandsModule { }

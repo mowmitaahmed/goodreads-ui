@@ -1,10 +1,10 @@
 export interface MenuAdmin {
-    id: string;
-    parentId?: string |any;
-    title: string;
-    routerLink?: string |any;
-    hasSubMenu: boolean;
-    href?: string | any;
-    icon?: string;
-    target?: string | any;
-  }
+  id: string ;
+  parentId: string;
+  title: string;
+  routerLink?: string;
+  hasSubMenu: boolean;
+  href?: string;
+  icon?: string;
+  target?: string;
+}

@@ -1,0 +1,365 @@
+<!-- {{carts | json}} -->
+<!-------------------------------------cheacout-area------------------------------>
+<section class="checkout-title-area">
+    <div class="container">
+      <!--checkout-title-->
+      <div class="checout-title">
+        <!---title-->
+        <div class="title">
+          <h3>Checkout</h3>
+        </div>
+        <!--checkout-price-->
+        <div class="checkout-price">
+          <span><i class="fa fa-shopping-cart"></i> <small>৳ {{ this.cartSubTotal}}</small></span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!---checout-main-area-->
+  <section class="checkout">
+    <div class="container">
+      <!---checkout-main-->
+      <div class="checkout-main">
+        <!---checkout-cart-->
+        <div class="checkout-cart-area">
+          <!--cart-area-left-->
+          <div class="cart-area-left">
+            <!--cart-title-->
+            <div class="cart-title">
+              <h3>Cart Items</h3>
+            </div>
+            <!---cart-product--->
+
+            <div class="cart-product-area">
+              <!--cart-product-details-->
+              <div class="cart-product-details" *ngFor="let c of carts; let i = index;">
+
+                <!---cart-product-img-->
+                <div class="cart-product-img">
+                  <img
+                    [src]="c?.product.images && c?.product.images.length > 0? c?.product.images[0] : '/assets/images/placeholder/test.png'"
+                    [alt]="c?.product?.productName">
+                </div>
+                <!---cart-product-info-->
+                <div class="cart-product-info">
+
+                    <!--cart-title-->
+                    <div class="cart-title-area">
+                        <!--product-title-->
+                        <div class="product-title">
+                          <a href="javascript:">{{c?.product?.productName}}</a>
+                        </div>
+                        <!--cart-remove-->
+                        <div class="cart-remove">
+                          <span (click)="onDeleteCartItem(c?._id, c?.product?._id)"><i class="far fa-trash-alt"></i></span>
+                        </div>
+                    </div>
+                    <!--cart-product-info-body-->
+                    <div class="cart-product-info-body">
+                        <!---brand-->
+                        <div class="product-brand">
+                          <div><span>Brand:</span></div>
+                          <div><a href="javascript:">{{ c?.product?.brandSlug ? c?.product?.brandSlug : 'N/A'}}</a></div>
+                        </div>
+                        <!--cart-product-price-->
+                        <div class="cart-product-price">
+                            <!--discount-->
+                            <div class="cart-product-discount">
+                              <span>MRP <del>{{c?.product?.price}}</del></span>
+                            </div>
+                            <!--cart-product-main-price-->
+                            <div class="cart-product-main-price">
+                              <h3>৳ {{c?.product?.price - c?.product?.discountAmount}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!---cart-product-bottom-->
+                    <div class="cart-product-bottom">
+                        <!---bottom-left-->
+                        <div class="bottom-left">
+
+                        </div>
+                        <!--bottom-right-->
+                        <div class="bottom-right">
+                            <!--cart-items-count-->
+                            <div class="cart-items-count">
+                                <!---mines-->
+                                <div class="mines-btn">
+                                  <button (click)="decrementQty(c?._id, i, c?.selectedQty)" type="button">-</button>
+                                </div>
+                                <!---cart-input-box-->
+                                <div class="cart-input-box">
+                                  <input type="text" name="item" [value]="c?.selectedQty" id="cart-value">
+                                </div>
+                                <!--cart-plus-->
+                                <div class="plus-btn">
+                                  <button (click)="incrementQty(c?._id, i)" type="button">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <!---cart-product-->
+  
+            <!--responsive-cart-product-main-->
+            <div class="responsive-cart-product-main">
+              <!--cart-product-->
+              <div class="cart-product" *ngFor="let c of carts; let i = index;">
+                <!--cart-product-img-->
+                <div class="cart-product-img">
+                  <img
+                    [src]="c?.product.images && c?.product.images.length > 0? c?.product.images[0] : '/assets/images/placeholder/test.png'"
+                    [alt]="c?.product?.productName">
+                </div>
+                <!---cart-text-details-->
+                <div class="cart-text-details">
+                  <!--product-left-->
+                  <div class="product-left">
+                    <!--product-title-->
+                    <div class="product-title">
+                      <a href="javascript:">{{c?.product?.productName}}</a>
+                    </div>
+                    <div class="product-brand">
+                      <div><a href="javascript:">{{ c?.product?.brandSlug ? (c?.product?.brandSlug) : 'N/A'}}</a></div>
+                    </div>
+                    <div class="cart-product-discount">
+                      <span>MRP <del>{{c?.product.price}}</del></span>
+                    </div>
+  
+                    <!--cart-items-count-->
+                    <div class="cart-items-count">
+                      <!---mines-->
+                      <div class="mines-btn">
+                        <button (click)="decrementQty(c?._id, i, c?.selectedQty)" type="button">-</button>
+                      </div>
+                      <!---cart-input-box-->
+                      <div class="cart-input-box">
+                        <input type="text" name="item" [value]="c?.selectedQty" id="cart-value">
+                      </div>
+                      <!--cart-plus-->
+                      <div class="plus-btn">
+                        <button (click)="incrementQty(c?._id, i)" type="button">+</button>
+                      </div>
+                    </div>
+                  </div>
+                  <!---product-right-->
+                  <div class="product-right">
+                    <!---cart-item-delete-->
+                    <div class="cart-item-delete">
+                      <span (click)="onDeleteCartItem(c?._id, c?.product?._id)"><i class="far fa-trash-alt"></i></span>
+                    </div>
+                    <!---product-price-->
+                    <div class="product-price">
+                      <h3>{{c | cartPrice: 'priceWithDiscount' : true | number : '': 'bn'}}</h3>
+                    </div>
+                  </div>
+  
+  
+                </div>
+  
+              </div><!--cart-product--end-->
+            </div>
+          </div><!---cart-area-left-end-->
+          <!--cupon-area-->
+          <div class="cupon-area" *ngIf="carts && carts.length > 0">
+            <!---code-link-->
+            <div class="cupon-code-link">
+              <a href="javascript:">Have a Coupon Code?</a>
+            </div>
+            <!---cupon-input-area-->
+            <div class="cupon-input-area">
+              <!---cupon-input-->
+              <div class="cupon-input">
+                <input type="text" name="couponCode" placeholder="Coupon code" [(ngModel)]="couponText" [ngModelOptions]="{standalone: true}">
+              </div>
+              <!--cupon-apply-btn-->
+              <div class="cupon-apply-btn">
+                <button *ngIf="!couponData" type="button" (click)="applyCoupon()">Apply</button>
+                <button *ngIf="couponData" type="button" (click)="removeCoupon()">Remove</button>
+              </div>
+  
+            </div>
+          </div><!--cupon-area-end-->
+  
+        </div> <!---checkout-cart-end------------------------------------->
+  
+  
+  
+        <!----------------------------------checkout-form-area------------------->
+        <div class="checkout-form-area">
+          <!---form-->
+          <form [formGroup]="dataForm" (ngSubmit)="placeOrder()"
+                #templateForm="ngForm">
+            <!---form-info-top-->
+            <div class="form-info-top">
+              <!---delivery-title-->
+              <div class="delivery-title">
+                <h3>Delivery Details</h3>
+              </div>
+  
+              <div fxLayout="column"
+                    fxLayoutAlign="space-around center">
+              <!---user-data-input-->
+                <div class="user-data-input-area">
+                    <!--user-name-area-->
+                    <div class="user-name-area">
+                      <!--name-->
+                      <div class="name">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Name</mat-label>
+                          <input type="text" matInput formControlName="name" placeholder="Enter Your Name">
+                        </mat-form-field>
+                      </div>
+                      <!---mbl-->
+                      <div class="mbl">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Mobile No</mat-label>
+                          <input readonly type="text" digitOnly matInput formControlName="phoneNo" placeholder="Enter Your Mobile">
+                        </mat-form-field>
+                      </div>
+  
+                    </div>
+                    <!--user-email-->
+                    <div class="user-email">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Email No</mat-label>
+                        <input type="email" matInput formControlName="email" placeholder="Enter Your Email" >
+                      </mat-form-field>
+                    </div>
+  
+                    <!--user-town-area-->
+                    <div class="user-town-area">
+                    </div>
+                    <!--user-address-->
+                    <div class="user-address">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Full Address</mat-label>
+                        <input type="text" matInput formControlName="shippingAddress" placeholder="Enter Your shipping Address">
+                      </mat-form-field>
+                    </div>
+                </div>
+              </div>
+            </div>  <!---form-info-top-end-->
+  
+            <!---form-info-bottom-->
+            <div class="form-info-bottom">
+              <!---delivery-title-->
+              <div class="delivery-title" style="text-align: center;">
+                <h3>Delivery Details</h3>
+              </div>
+  
+              <!--checkout-paymethod-->
+              <div class="checkout-paymethod">
+                <!---paymethod-->
+                <div class="paymethod">
+                  <!--radio-box-->
+                    <mat-radio-group class="radio-box" formControlName="orderType" aria-label="Select an option">
+                      <mat-radio-button *ngFor="let data of paymentTypes" [value]="data.value" [matTooltip]="data.viewValue">
+                        <div class="method-img">
+                          <img [src]="data.image" alt="">
+                        </div>
+                      </mat-radio-button>
+                    </mat-radio-group>
+                  <!---method-img-->
+                </div>
+  
+                <!---paymethod-->
+  <!--              <div class="paymethod">-->
+  <!--                &lt;!&ndash;radio-box&ndash;&gt;-->
+  <!--                <div class="radio-box">-->
+  <!--                  <mat-radio-group aria-label="Select an option">-->
+  <!--                    <mat-radio-button value="1"></mat-radio-button>-->
+  <!--                  </mat-radio-group>-->
+  <!--                </div>-->
+  <!--                &lt;!&ndash;-method-img&ndash;&gt;-->
+  <!--                <div class="method-img">-->
+  <!--                  <img src="./assets/images/payments/credit.png" alt="">-->
+  <!--                </div>-->
+  <!--              </div>-->
+  
+              </div>
+  
+              <!---delivery-title-->
+              <div class="delivery-title" style="border: none; margin-top: 10px; padding: 0;">
+                <h3>Price Details</h3>
+              </div>
+              <!---payment-detals-->
+              <div class="payment-details-area">
+                <h3 style="font-size:15px;">Payment Details</h3>
+                <!---pay-details-main--->
+                <div class="payment-details-main">
+                  <!--pay-details-left-->
+                  <div class="pay-details-left">
+                    <span>MRP</span>
+                  </div>
+                  <!--pay-details-right-->
+                  <div class="pay-details-right">
+                    <span>৳{{cartSubTotal}}</span>
+                  </div>
+                </div>
+                <!---pay-details-main--->
+                <div class="payment-details-main">
+                  <!--pay-details-left-->
+                  <div class="pay-details-left">
+                    <span>Delivery  Charge </span>
+                  </div>
+                  <!--pay-details-right-->
+                  <div class="pay-details-right">
+                    <span>৳ {{shippingCharge}}</span>
+                  </div>
+                </div>
+                <!---pay-details-main--->
+                <div class="payment-details-main">
+                  <!--pay-details-left-->
+                  <div class="pay-details-left">
+                    <span>Coupon Discount </span>
+                  </div>
+                  <!--pay-details-right-->
+                  <div class="pay-details-right">
+                    <span>- ৳ {{finalDiscount}}</span>
+                  </div>
+                </div>
+                <!--total-->
+                <div class="total-pay">
+                  <!---pay-details-main--->
+                  <div class="payment-details-main">
+                    <!--pay-details-left-->
+                    <div class="pay-details-left">
+                      <h4>Total</h4>
+                    </div>
+                    <!--pay-details-right-->
+                    <div class="pay-details-right">
+                      <h4>৳ {{ (cartSubTotal + shippingCharge) - finalDiscount
+                        | number : '': 'bn'}}</h4>
+                    </div>
+                  </div>
+                </div><!--total-->
+  
+                <div class="checkout-btn" style="margin-bottom: 10px;">
+                  <button type="submit" >Place Order Now</button>
+                </div>
+  
+              </div>
+  
+  
+  
+            </div>
+  
+  
+  
+  
+  
+          </form>
+        </div><!---checkout-form-area-end-->
+  
+      </div>  <!---checkout-main-end-->
+    </div>
+  </section>
+  
+  
+  
+  
+  

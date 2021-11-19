@@ -3,6 +3,8 @@ import {ProductBrand} from './product-brand';
 import {ProductUnitType} from './product-unit-type';
 
 export interface Product {
+  subCategory: any;
+  generic: any;
   _id: string;
   productName: string;
   productSlug: string;
@@ -43,11 +45,11 @@ export interface Product {
   select?: boolean;
 }
 
-// export interface FilterData {
-//   _id: string;
-//   attributeName: string;
-//   attributeValues: string;
-// }
+export interface FilterData {
+  _id: string;
+  attributeName: string;
+  attributeValues: string;
+}
 
 
 export interface PriceData {
