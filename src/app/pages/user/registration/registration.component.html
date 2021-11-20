@@ -9,7 +9,11 @@
       </div>
     </div>
 
+
     <div class="singup-form">
+      <div class="signup-img">
+        <img src="https://cdn3.vectorstock.com/i/1000x1000/97/47/register-now-banner-free-registration-vector-32869747.jpg" alt="" srcset="">
+      </div>
       <form [formGroup]="dataForm" (ngSubmit)="onSubmitForm()" autocomplete="off">
 
         <div class="form-details-left">
@@ -78,14 +82,14 @@
             </div>
             <div class="check-rules">
               <label for="check">I want to receive exclusive offers and promotions
-                from E-medilife</label>
+                from Goodreads</label>
             </div>
           </div>
           <div class="submit-btn">
             <button [disabled]="isLoading" type="submit">{{isLoading ? 'PLEASE WAIT..' : 'SIGN UP'}}</button>
           </div>
           <div class="privacy">
-            <p>By clicking "SIGN UP", I agree to E-medilife's <a routerLink="/pages/terms-and-conditions" target="_blank">terms
+            <p>By clicking "SIGN UP", I agree to Goodreads <a routerLink="/pages/terms-and-conditions" target="_blank">terms
               of use</a>
               and <a routerLink="/pages/privacy-policy" target="_blank">Privacy Policy</a>
             </p>

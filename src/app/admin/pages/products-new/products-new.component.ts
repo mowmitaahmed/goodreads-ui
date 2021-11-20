@@ -23,16 +23,16 @@ import {UtilsService} from '../../../services/utils.service';
 import {Select} from '../../../interfaces/select';
 
 @Component({
-  selector: 'app-products',
-  templateUrl: './products.component.html',
-  styleUrls: ['./products.component.scss']
+  selector: 'app-products-new',
+  templateUrl: './products-new.component.html',
+  styleUrls: ['./products-new.component.scss']
 })
-export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ProductsNewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Subscriptions
   private subProduct: Subscription;
   private subCat: Subscription;
-  // private subSubCat: Subscription;
+  private subSubCat: Subscription;
   private subAcRoute: Subscription;
   private subForm: Subscription;
 
@@ -40,7 +40,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   products: Product[] = [];
   private holdPrevData: any[] = [];
   categories: ProductCategory[] = [];
-
+  // subCategories: ProductSubCategory[] = [];
   stockTypes: Select[] = [
     {value: {quantity: {$gt: 0}}, viewValue: 'Stock In'},
     {value: {quantity: {$lte: 0}}, viewValue: 'Stock Out'},
@@ -49,7 +49,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   // Pagination
   currentPage = 1;
   totalProducts = 0;
-  productsPerPage = 24;
+  productsPerPage = 10;
   totalProductsStore = 0;
 
   // SEARCH AREA
@@ -65,7 +65,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Select View Child
   @ViewChild('matCatSelect') matCatSelect: MatSelect;
-  // @ViewChild('matSubCatSelect') matSubCatSelect: MatSelect;
+  @ViewChild('matSubCatSelect') matSubCatSelect: MatSelect;
 
   // DOWNLOADABLE
   dataTypeFormat = 'excel';
@@ -103,7 +103,6 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // GET
     this.getAllCategory();
-    this.getAllProducts();
   }
 
   ngAfterViewInit(): void {
@@ -183,7 +182,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
    * HTTP REQ
    */
 
-   private getAllProducts() {
+  private getAllProducts() {
     this.spinner.show();
 
     const pagination: Pagination = {
@@ -191,15 +190,15 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
       currentPage: this.currentPage.toString()
     };
 
-    const mQuery = {...{productVisibility: true}, ...this.query};
-
-    this.subProduct = this.productService.getAllProducts(pagination, mQuery).subscribe(res => {
+    this.subProduct = this.productService.getAllProducts(pagination, this.query)
+      .subscribe(res => {
         this.products = res.data;
+        console.log(res.data);
+        this.holdPrevData = res.data;
         this.totalProducts = res.count;
-        // console.log('products:', this.products);
-        // const min = res.priceRange.minPrice;
-        // const max = res.priceRange.maxPrice;
+        this.totalProductsStore = res.count;
         this.spinner.hide();
+
       }, error => {
         this.spinner.hide();
         console.log(error);
@@ -214,6 +213,15 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(error);
       });
   }
+
+  // private getAllSubCategory(categoryId: string) {
+  //   this.subSubCat = this.subCategoryService.getSubCategoryByCategoryId(categoryId)
+  //     .subscribe(res => {
+  //       this.subCategories = res.data;
+  //     }, error => {
+  //       console.log(error);
+  //     });
+  // }
 
 
   private insertManyProduct(data: Product[]) {
@@ -281,6 +289,18 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  // onSelectSubCategory(event: MatOptionSelectionChange) {
+  //   if (event.isUserInput) {
+  //     const subCategory = event.source.value as ProductSubCategory;
+  //     this.query = {...this.query, ...{subCategory: subCategory._id}};
+  //     if (this.currentPage > 1) {
+  //       this.router.navigate([], {queryParams: {page: 1}});
+  //     } else {
+  //       this.getAllProducts();
+  //     }
+  //   }
+  // }
+
   onSelectStockType(event: MatOptionSelectionChange) {
     if (event.isUserInput) {
       this.query = event.source.value;
@@ -297,7 +317,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   onClearFilter() {
     this.matCatSelect.options.forEach((data: MatOption) => data.deselect());
-    // this.matSubCatSelect.options.forEach((data: MatOption) => data.deselect());
+    this.matSubCatSelect.options.forEach((data: MatOption) => data.deselect());
     this.query = null;
     this.router.navigate([], {queryParams: {page: null}, queryParamsHandling: 'merge'});
     this.getAllProducts();
@@ -307,6 +327,57 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
    * IMPORT EXCEL DATA
    * FILE CHANGE EVENT
    */
+
+  onFileChange(ev) {
+    let workBook = null;
+    let jsonData = null;
+    const reader = new FileReader();
+    const file = ev.target.files[0];
+    if (this.dataTypeFormat === 'excel') {
+      reader.onload = (event) => {
+        const data = reader.result;
+        workBook = XLSX.read(data, {type: 'binary'});
+        jsonData = workBook.SheetNames.reduce((initial, name) => {
+          const sheet = workBook.Sheets[name];
+          initial[name] = XLSX.utils.sheet_to_json(sheet);
+          return initial;
+        }, {});
+
+        // Modify Attributes
+        const allData = jsonData.products;
+        const mData: Product[] = allData.map(m => {
+          const dataNameFieldString = m.productName.toString().trim();
+          return {
+            ...m,
+            ...{
+              productSlug: this.utilsService.transformToSlug(dataNameFieldString),
+              campaignStartDate: m.campaignStartDate ? this.excelDateToJSDate(m.campaignStartDate) : null,
+              campaignEndDate: m.campaignEndDate ? this.excelDateToJSDate(m.campaignEndDate) : null,
+            }
+          } as Product;
+        });
+        this.openConfirmUploadDialog(mData);
+      };
+
+      reader.readAsBinaryString(file);
+    } else {
+      reader.readAsText(file, 'UTF-8');
+      reader.onload = () => {
+        const products = JSON.parse(reader.result.toString());
+        const mProducts: Product[] = products.map(m => {
+          const dataNameFieldString = m.productName.toString().trim();
+          return {
+            ...m,
+            ...{productSlug: this.utilsService.transformToSlug(dataNameFieldString)}
+          } as ProductCategory;
+        });
+        this.openConfirmUploadDialog(mProducts);
+      };
+      reader.onerror = (error) => {
+        console.log(error);
+      };
+    }
+  }
 
   protected getFilterStringToMain(str: string): FilterData[] | null {
     if (str) {
@@ -342,6 +413,14 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
+  exportDataToFile() {
+    if (this.dataTypeFormat === 'json') {
+      // this.exportAsAJson();
+    } else {
+      this.exportToExcel();
+    }
+  }
+
 
   /**
    * EXPORTS TO EXCEL
@@ -351,12 +430,13 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.productService.getAllProducts(null, null)
       .subscribe(res => {
         const allData = res.data as Product[];
+        console.log(allData);
         const mData = allData.map(m => {
           return {
             _id: m._id,
             productName: m.productName,
             sku: m.sku,
-            price: m.price,
+            // price: m.price,
             discountType: m.discountType,
             discountAmount: m.discountAmount,
             quantity: m.quantity,
@@ -381,10 +461,75 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
+   * DOWNLOADABLE JSON
+   */
+  // exportAsAJson() {
+  //   this.productService.getAllProducts(null, null)
+  //     .subscribe(res => {
+  //       const allData = res.data as Product[];
+  //
+  //       const blob = new Blob([JSON.stringify(allData, null, 2)], {type: 'application/json'});
+  //       this.dialog.open(DownloadJsonDialogComponent, {
+  //         maxWidth: '500px',
+  //         data: {
+  //           blobUrl: window.URL.createObjectURL(blob),
+  //           backupType: 'products'
+  //         }
+  //       });
+  //     }, error => {
+  //       console.log(error);
+  //     });
+  //
+  // }
+
+  /**
    * CLONE PRODUCT
    */
+  cloneProduct(data: Product) {
+    delete data._id;
+    delete data.ratingReview;
+    delete data.createdAt;
+    delete data.updatedAt;
+    const productNewName = `${data.productName} (Clone) ${Date.now().toString().slice(0, 3)}`;
+    data.productName = productNewName;
+    data.productSlug = this.utilsService.transformToSlug(productNewName);
 
+    this.productService.addSingleProduct(data)
+      .subscribe(res => {
+        this.uiService.success('Product Cloned Successfully. Please Check it First');
+        this.reloadService.needRefreshProduct$();
+      }, error => {
+        console.log(error);
+      });
+  }
 
+  /**
+   * EXCEL DATE TO NORMAL DATE
+   */
+  excelDateToJSDate(serial: any) {
+    if (typeof serial === 'string') {
+      return this.utilsService.getDateWithCurrentTime(new Date(serial));
+    } else {
+      const utcDate = Math.floor(serial - 25569);
+      const utcValue = utcDate * 86400;
+      const dateInfo = new Date(utcValue * 1000);
+
+      const fractionalDay = serial - Math.floor(serial) + 0.0000001;
+
+      let totalSeconds = Math.floor(86400 * fractionalDay);
+
+      const seconds = totalSeconds % 60;
+
+      totalSeconds -= seconds;
+
+      const hours = Math.floor(totalSeconds / (60 * 60));
+      const minutes = Math.floor(totalSeconds / 60) % 60;
+
+      const d = new Date(dateInfo.getFullYear(), dateInfo.getMonth(), dateInfo.getDate(), hours, minutes, seconds);
+      return this.utilsService.getDateWithCurrentTime(d);
+
+    }
+  }
 
   /**
    * ON DESTROY
@@ -399,6 +544,9 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     if (this.subCat) {
       this.subCat.unsubscribe();
+    }
+    if (this.subSubCat) {
+      this.subSubCat.unsubscribe();
     }
     if (this.subForm) {
       this.subForm.unsubscribe();

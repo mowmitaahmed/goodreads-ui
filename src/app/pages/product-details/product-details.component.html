@@ -1,3 +1,4 @@
+{{product | json}}
 <section class="product-details">
     <div class="container">
             <!--******* details-main-area *****-->
@@ -62,7 +63,7 @@
               <div><span>Brand:</span></div>
               <div><a [routerLink]="['/product-list', 'brand', product?.brand]">{{product?.brand}}</a></div>
             </div>
-            <span>More Drugs From {{product?.brand}}</span>
+            <!-- <span>More Drugs From {{product?.brand}}</span> -->
           </div>
            <!--product-price-->
           <div class="product-price">

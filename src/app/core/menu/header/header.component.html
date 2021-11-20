@@ -12,8 +12,9 @@
         </div>
         </div> <!-- END LOGO -->
 
-        <div class="search" (click)="onClickSearchArea($event)">
+        <div class="search">
           <!--menu-->
+          <!-- {{navItems | json}} -->
           <div class="menu-area">
             <ul>
               <li *ngFor="let item of navItems">
@@ -32,7 +33,8 @@
             <li><a routerLink="/login"><i class="fas fa-user-circle"></i> <span>
               {{isUserAuth ? 'My Account' : 'Log In / Sign Up'}}
             </span></a></li>
-            <li><a routerLink="/cart" (click)="cartSlideActive()"><i class="fa fa-shopping-cart"></i> <span>Cart(0)</span></a></li>
+            {{carts | json}}
+            <li><a routerLink="/cart" (click)="cartSlideActive()"><i class="fa fa-shopping-cart"></i> <span>Cart({{carts.length}})</span></a></li>
           </ul>
         </div>
   
@@ -43,7 +45,7 @@
               {{isUserAuth ? 'My Account' : 'Log In / Sign Up'}}
             </span></a></li>
             <!-- <li>{{carts | json}}</li> -->
-            <li><a href="/cart" (click)="cartSlideActive()"><i class="fa fa-shopping-cart"></i> <span>Cart({{carts.length}})</span></a></li>
+            <li><a routerLink="/cart" (click)="cartSlideActive()"><i class="fa fa-shopping-cart"></i> <span>Cart({{carts.length}})</span></a></li>
           </ul>
   
         </div>

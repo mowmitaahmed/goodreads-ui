@@ -62,11 +62,17 @@
  background: #FFFFFF;
  padding: 45px 24px;
  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
 
  label i {
   margin-right: 8px;
   color: #00bd4a;
  }
+}
+.signup-img img{
+  width: 88%;
+  height: 100%;
 }
 
 .singup-form form {

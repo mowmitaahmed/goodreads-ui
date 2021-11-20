@@ -53,7 +53,7 @@ export class PagesComponent implements OnInit, AfterViewInit {
     // Google No Index
     this.googleNoIndex();
     this.menuList = menuItemsSuperAdmin;
-    console.log('Super Admin: ', this.menuList);
+    // console.log('Super Admin: ', this.menuList);
     // const role = this.adminService.getAdminRole();
     // switch (role) {
     //   case AdminRoleEnum.SUPER_ADMIN: {

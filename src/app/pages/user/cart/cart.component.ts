@@ -41,15 +41,28 @@ export class CartComponent implements OnInit {
     this.reloadService.refreshCart$.subscribe(() => {
       this.getCartsItems();
     });
-    this.getCartsItems();
+    // this.getCartsItems();
     if (this.userService.getUserStatus()) {
       this.cartService.getCartItemList()
       .subscribe(res => {
         this.carts = res.data;
-        console.log('get cart', this.carts);
-        
+        let cartsItem = this.carts;
       const items = this.cartService.getCartItemFromLocalStorage();
-      items.filter(x => console.log('x:',x));
+      let cartIt;
+      const data = cartsItem.filter(x =>{ 
+        items.filter(y =>{
+
+          if(y.product !== x.product._id){
+            cartIt = y;
+          }
+        });
+      }
+        );
+        console.log('cartIt',cartIt);
+        if(cartIt){
+          this.addItemToCartDB(cartIt);
+          this.cartService.deleteAllCartFromLocal();
+        }
       }, error => {
         console.log(error);
       });
@@ -66,7 +79,16 @@ export class CartComponent implements OnInit {
   /**
    * HTTP REQ HANDLE
    */
-
+  
+   addItemToCartDB(data: Cart) {
+    this.userDataService.addItemToUserCart(data)
+      .subscribe(res => {
+        this.uiService.success(res.message);
+        this.reloadService.needRefreshCart$();
+      }, error => {
+        console.log(error);
+      });
+  }
     /**
    * CART DATA
    */

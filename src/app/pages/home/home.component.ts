@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // Store Data
   products: Product[] = [];
-
+  private holdPrevData: any[] = [];
   // Query
   query: any = null;
 
@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentPage = 1;
   totalProducts = 0;
   productsPerPage = 16;
-  // totalProductsStore = 0;
+  totalProductsStore = 0;
 
 
   constructor(
@@ -69,22 +69,45 @@ export class HomeComponent implements OnInit, OnDestroy {
    * HTTP REQ HANDLE
    */
 
-     private getAllProducts() {
-      this.spinner.show();
+    //  private getAllProducts() {
+    //   this.spinner.show();
 
+    //   const pagination: Pagination = {
+    //     pageSize: this.productsPerPage.toString(),
+    //     currentPage: this.currentPage.toString()
+    //   };
+  
+    //   const mQuery = {...{productVisibility: true}, ...this.query};
+  
+    //   this.subProduct = this.productService.getAllProducts(pagination,mQuery).subscribe(res => {
+    //       this.products = res.data;
+    //       this.totalProducts = res.count;
+    //       // const min = res.priceRange.minPrice;
+    //       // const max = res.priceRange.maxPrice;
+    //       this.spinner.hide();
+    //     }, error => {
+    //       this.spinner.hide();
+    //       console.log(error);
+    //     });
+    // }
+
+    private getAllProducts() {
+      this.spinner.show();
+  
       const pagination: Pagination = {
         pageSize: this.productsPerPage.toString(),
         currentPage: this.currentPage.toString()
       };
   
-      const mQuery = {...{productVisibility: true}, ...this.query};
-  
-      this.subProduct = this.productService.getAllProducts(pagination,mQuery).subscribe(res => {
+      this.subProduct = this.productService.getAllProducts(pagination, this.query)
+        .subscribe(res => {
           this.products = res.data;
+          // console.log(res.data);
+          this.holdPrevData = res.data;
           this.totalProducts = res.count;
-          // const min = res.priceRange.minPrice;
-          // const max = res.priceRange.maxPrice;
+          this.totalProductsStore = res.count;
           this.spinner.hide();
+  
         }, error => {
           this.spinner.hide();
           console.log(error);

@@ -23,7 +23,7 @@ export class SidenavListComponent implements OnInit {
 
   ngOnInit() {
     this.parentMenu = this.menuItems.filter(item => item.parentId === this.menuParentId);
-    console.log(this.parentMenu)
+    // console.log(this.parentMenu)
   }
 
   onClick(menuId) {

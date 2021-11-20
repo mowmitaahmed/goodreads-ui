@@ -31,6 +31,7 @@ import {ProductTableComponent} from './components/product-table/product-table.co
 import {PipesModule} from '../../shared/pipes/pipes.module';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {ProductViewTableOneComponent} from './components/product-view-table-one/product-view-table-one.component';
+// import { ProductsNewComponent } from './products-new/products-new.component';
 // import { ImageFolderComponent } from './gallery/image-folder/image-folder.component';
 
 
@@ -75,6 +76,11 @@ const routes: Routes = [
         loadChildren: () => import('./gallery/image-folder/image-folder.module').then(m => m.ImageFolderModule),
         // canActivate: [CheckAuthAccessGuard]
       },
+      {
+        path: 'products-new',
+        loadChildren: () => import('../pages/products-new/products-new.module').then(m => m.ProductsNewModule),
+        // canActivate: [CheckAuthAccessGuard]
+      },
       // {
       //   path: 'orders',
       //   canActivate: [CheckAuthAccessGuard, EditorAuthRoleGuard],
@@ -91,6 +97,7 @@ const routes: Routes = [
     SidenavListComponent,
     ProductTableComponent,
     ProductViewTableOneComponent,
+    // ProductsNewComponent,
     // ImageFolderComponent,
   ],
   imports: [
