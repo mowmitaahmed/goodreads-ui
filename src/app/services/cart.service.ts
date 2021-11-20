@@ -75,7 +75,7 @@ export class CartService {
    * CART LOCAL STORAGE
    */
   addCartItemToLocalStorage(cartItem: Cart) {
-    console.log(cartItem);
+
     const items = JSON.parse(localStorage.getItem(DATABASE_KEY.userCart));
 
     let carts;

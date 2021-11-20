@@ -41,8 +41,22 @@ export class CartComponent implements OnInit {
     this.reloadService.refreshCart$.subscribe(() => {
       this.getCartsItems();
     });
-
     this.getCartsItems();
+    if (this.userService.getUserStatus()) {
+      this.cartService.getCartItemList()
+      .subscribe(res => {
+        this.carts = res.data;
+        console.log('get cart', this.carts);
+        
+      const items = this.cartService.getCartItemFromLocalStorage();
+      items.filter(x => console.log('x:',x));
+      }, error => {
+        console.log(error);
+      });
+      // console.log('Local Cart for user: ', items);
+
+
+    }
   }
 
   /**
@@ -59,6 +73,8 @@ export class CartComponent implements OnInit {
   private getCartsItems() {
     if (this.userService.getUserStatus()) {
       this.getCartItemList();
+      this.getCarsItemFromLocal();
+      // console.log('Carts:', this.carts);
     } else {
       this.getCarsItemFromLocal();
     }
@@ -166,7 +182,6 @@ export class CartComponent implements OnInit {
     this.cartService.getCartItemList()
       .subscribe(res => {
         this.carts = res.data;
-        console.log('get cart', this.carts);
       }, error => {
         console.log(error);
       });

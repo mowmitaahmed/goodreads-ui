@@ -163,13 +163,12 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
         .subscribe(res => {
           this.carts = res.data;
           if (refresh) {
-            // console.log('Iam on Cart trigger');
+            console.log('Iam on Cart trigger');
             this.cartSlide = true;
             console.log(this.cartSlide);
           }
         });
     } else {
-      // this.getCarsItemFromLocal();
       this.getCarsItemFromLocal(refresh);
     }
 
@@ -177,15 +176,14 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private getCarsItemFromLocal(refresh?: boolean) {
     const items = this.cartService.getCartItemFromLocalStorage();
+
     if (items && items.length > 0) {
       const ids: string[] = items.map(m => m.product as string);
-      console.log('Sync Item', ids);
       this.productService.getSpecificProductsById(ids, 'productName productSlug price prices discountType discountAmount  quantity images')
         .subscribe(res => {
           const products = res.data;
           if (products && products.length > 0) {
             this.carts = items.map(t1 => ({...t1, ...{product: products.find(t2 => t2._id === t1.product)}}));
-            console.log('Header cart', this.carts);
             if (refresh) {
               console.log('Iam on Cart trigger Local');
               this.cartSlide = true;

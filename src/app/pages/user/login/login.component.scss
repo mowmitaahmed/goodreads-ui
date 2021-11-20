@@ -90,6 +90,9 @@
   }
   
   /* 1st solution - causes weird thing at the left side of input */
+  mat-form-field{
+    min-width: 100%;
+  }
   ::ng-deep .c-mat-field .mat-form-field-outline-start {
     border-radius: 28px 0 0 28px !important;
     min-width: 28px !important;

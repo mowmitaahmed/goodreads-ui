@@ -11,6 +11,17 @@
             </a>
         </div>
         </div> <!-- END LOGO -->
+
+        <div class="search" (click)="onClickSearchArea($event)">
+          <!--menu-->
+          <div class="menu-area">
+            <ul>
+              <li *ngFor="let item of navItems">
+                 <a  [routerLink]="item.categorySlug">{{item.categoryName}}</a>
+              </li>
+            </ul>
+          </div>
+        </div> <!-- END SEARCH -->
         
     <!---header-right-area-->
     <div class="header-right">
@@ -39,24 +50,4 @@
   
       </div>
     </div>
-
-   <!-- menu start -->
-   <div  class="basic-container"   >
-    <span *ngFor="let item of navItems">
-      <!-- Handle branch node buttons here -->
-      <span *ngIf="item.children && item.children.length > 0">
-        <button mat-button color="primary" [matMenuTriggerFor]="menu.childMenu">
-          {{item.displayName}}
-        </button>
-        <app-menu-item #menu [items]="item.children"></app-menu-item>
-      </span>
-      <!-- Leaf node buttons here -->
-      <span *ngIf="!item.children || item.children.length === 0">
-        <button mat-button color="primary" [routerLink]="item.route">
-          {{item.displayName}}
-        </button>
-      </span>
-    </span>
-  </div>
-  <!-- menu end -->
 </header>

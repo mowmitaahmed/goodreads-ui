@@ -110,16 +110,13 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.spinner.hide();
         this.product = res.data;
-        console.log('Single Product:',this.product);
         this.productPriceData = this.product.price;
-        console.log('Single Product Price:',this.productPriceData);
 
         // Recommended Product
 
         if (this.product) {
           if (this.productPriceData) {
             this.selectedPriceData = this.productPriceData;
-            console.log('selectedPriceData:',this.productPriceData);
           }
           // this.updateBreadcrumb();
           this.setDefaultImage();
@@ -213,7 +210,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       selectedQty: this.selectedQty,
       priceId: this.selectedPriceData
     };
-    console.log('data',this.selectedPriceData);
+    // console.log('data',this.selectedPriceData);
 
     if (this.userService.getUserStatus()) {
       this.addItemToCartDB(data);
@@ -242,7 +239,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         if (existsOnCart) {
           this.existsInCart = true;
           this.selectedQty = existsOnCart.selectedQty;
-          this.selectedPriceData = this.productPriceData.find(f => f._id === existsOnCart.priceId);
+          // console.log('this.productPriceData', this.productPriceData);
+          // this.selectedPriceData = this.productPriceData.find(f => f._id === existsOnCart.priceId);
         }
       }, error => {
         console.log(error);
