@@ -6,6 +6,7 @@ import {RegistrationComponent} from './registration.component';
 import {MaterialModule} from '../../../material/material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SharedModule} from '../../../shared/shared.module';
+// import {DigitOnlyModule} from '@uiowa/digit-only';
 
 @NgModule({
   declarations: [RegistrationComponent],
@@ -15,7 +16,8 @@ import {SharedModule} from '../../../shared/shared.module';
     MaterialModule,
     FormsModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    // DigitOnlyModule
   ]
 })
 export class RegistrationModule { }

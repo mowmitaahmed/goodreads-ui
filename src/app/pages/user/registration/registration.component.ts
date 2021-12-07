@@ -48,6 +48,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       confirmPassword: [null, Validators.required],
       fullName: [null, Validators.required],
       gender: [null, Validators.required],
+      isPhoneVerified: false,
       agree: [true, Validators.required],
     });
   }
@@ -95,6 +96,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.userModelObj.confirmPassword = this.dataForm.value.confirmPassword;
     this.userModelObj.fullName = this.dataForm.value.fullName;
     this.userModelObj.gender = this.dataForm.value.gender;
+    this.userModelObj.isPhoneVerified = true;
+    this.userModelObj.registrationType = 'email',
+    this.userModelObj.isEmailVerified = false,
+    this.userModelObj.hasAccess = true,
+    this.userModelObj.username =  this.dataForm.value.email,
     // this.userModelObj.agree = this.dataForm.value.agree;
 
     console.log('userModelObj: ', this.userModelObj);

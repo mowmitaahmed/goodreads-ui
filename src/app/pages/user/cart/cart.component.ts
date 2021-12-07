@@ -41,7 +41,7 @@ export class CartComponent implements OnInit {
     this.reloadService.refreshCart$.subscribe(() => {
       this.getCartsItems();
     });
-    // this.getCartsItems();
+    
     if (this.userService.getUserStatus()) {
       this.cartService.getCartItemList()
       .subscribe(res => {
@@ -69,6 +69,8 @@ export class CartComponent implements OnInit {
       // console.log('Local Cart for user: ', items);
 
 
+    }else{
+      this.getCartsItems();
     }
   }
 
@@ -112,6 +114,7 @@ export class CartComponent implements OnInit {
           window.scrollTo(0, 0);
           if (products && products.length > 0) {
             this.carts = items.map(t1 => ({...t1, ...{product: products.find(t2 => t2._id === t1.product)}}));
+            console.log('cart', this.carts);
           }
         });
     } else {

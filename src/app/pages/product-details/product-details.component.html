@@ -1,4 +1,4 @@
-{{product | json}}
+<!-- {{product | json}} -->
 <section class="product-details">
     <div class="container">
             <!--******* details-main-area *****-->
@@ -61,7 +61,7 @@
           <div class="product-brand-area">
             <div class="product-brand">
               <div><span>Brand:</span></div>
-              <div><a [routerLink]="['/product-list', 'brand', product?.brand]">{{product?.brand}}</a></div>
+              <div><a [routerLink]="['/product-list', 'brand', product?.brand]">{{product?.brand?.brandName}}</a></div>
             </div>
             <!-- <span>More Drugs From {{product?.brand}}</span> -->
           </div>
@@ -70,10 +70,10 @@
              <!--discount-->
              <!-- [fxShow]="selectedPriceData?.discountAmount && selectedPriceData?.discountAmount > 0" -->
                 <div class="cart-product-discount" >
-                  <span>MRP <del>৳{{product?.discountAmount}}</del> <strong> {{product ? product?.discountType : 0}}% OFF</strong></span>
+                  <span>MRP <del>৳{{product?.price}}</del> <strong> {{product ? product?.discountType : 0}}% OFF</strong></span>
                 </div>              
                 <div class="product-main-price">
-                  <h3>৳{{product?.price}}</h3>
+                  <h3>৳{{product?.price - product?.discountAmount}}</h3>
                 </div>
             </div>
             <div class="cart-product-bottom">

@@ -10,7 +10,7 @@
 }
 .footer-area{
   display: block;
-  background-color: #F9F8F4;
+  background-color: #FBAE01;
   padding: 50px 15px 30px 15px;
 }
 
@@ -19,7 +19,7 @@
       width: 92%!important;
     }
     .footer-area{
-      padding: 50px 0px 30px 0px;
+      padding: 20px 0px 20px 0px;
     }
   }
   .footer-top-area{
@@ -28,6 +28,6 @@
     grid-template-rows: auto;
     grid-gap: 20px;
     box-sizing: border-box;
-    border-top: 1px solid #ddd;
+    // border-top: 1px solid #ddd;
     text-align: center;
   }

@@ -30,6 +30,7 @@
     "@ngx-loading-bar/core": "^5.1.2",
     "@ngx-loading-bar/router": "^5.1.2",
     "@swimlane/ngx-charts": "^19.1.0",
+    "@uiowa/digit-only": "^3.2.0",
     "encrypt-storage": "^2.2.3",
     "mat-select-filter": "^2.3.9",
     "moment": "^2.29.1",

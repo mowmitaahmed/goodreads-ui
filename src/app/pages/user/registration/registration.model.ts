@@ -9,4 +9,9 @@ export class RegistrationModel{
     // isPhoneVerified: boolean = true;
     createdAt?: Date = new Date();
     updatedAt?: Date = new Date();
+    isPhoneVerified: any;
+    registrationType: any;
+    isEmailVerified: boolean;
+    hasAccess: boolean;
+    username: string;
 }

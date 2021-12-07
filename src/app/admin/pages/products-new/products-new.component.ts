@@ -317,7 +317,7 @@ export class ProductsNewComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   onClearFilter() {
     this.matCatSelect.options.forEach((data: MatOption) => data.deselect());
-    this.matSubCatSelect.options.forEach((data: MatOption) => data.deselect());
+    // this.matSubCatSelect.options.forEach((data: MatOption) => data.deselect());
     this.query = null;
     this.router.navigate([], {queryParams: {page: null}, queryParamsHandling: 'merge'});
     this.getAllProducts();

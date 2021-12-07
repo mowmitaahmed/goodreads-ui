@@ -285,8 +285,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
       // genericSlug: genericSlug ? genericSlug : null,
       brandSlug,
       price: rawData.price ? rawData.price : 0,
-      discountType: rawData.price ? rawData.price.discountType : null,
-      discountAmount: rawData.price? rawData.price.discountAmount : null,
+      discountType: rawData.discountType ? rawData.discountType : null,
+      discountAmount: rawData.discountAmount? rawData.discountAmount : null,
       images
     };
     const finalData = {
